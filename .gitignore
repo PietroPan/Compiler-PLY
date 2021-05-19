@@ -1,0 +1,6 @@
+vms/*.o
+vms/vms
+vms/vmsGTKAux
+vms/lex.yy.c
+vms/y.tab.c
+vms/y.tab.h
