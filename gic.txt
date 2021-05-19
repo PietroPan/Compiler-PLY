@@ -1,0 +1,27 @@
+T {int,num,id,print,int,vars,main}
+Tl {=,(,),{,}}
+N {VarBlc MainBlc Dcls DclInt Insts AttrInt Print}
+S: Prog
+P{
+Prog -> VarBlc MainBlc
+
+VarBlc -> vars '{' Dcls '}'
+
+Dcls    -> DclInt Dcls
+         | 
+
+DclInt -> int id = num 
+        | int id num
+        | int id
+
+MainBlc -> main '{' Insts '}'
+
+Insts -> AttrInt Insts
+       | Print Insts
+       |
+
+AttrInt -> id = num 
+         | id num
+
+Print -> print '(' id ')'
+}

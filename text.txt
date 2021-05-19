@@ -1,0 +1,13 @@
+vars {
+    int a 
+    int b = 9
+    int c
+}
+
+main {
+    a=2
+    c 10
+    println(a)
+    println(b)
+    println(c)
+}
