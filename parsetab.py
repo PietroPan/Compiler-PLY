@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "num id int print println vars mainProg : VarBlc MainBlcVarBlc : vars '{' Dcls '}'Dcls : DclInt DclsDcls : MainBlc : main '{' InstsInsts : AttrInt InstsInsts : Print InstsInsts : Println InstsInsts : '}'Print : print '(' id ')'Println : println '(' id ')'DclInt : int idDclInt : int id numDclInt : int id '=' numAttrInt : id numAttrInt : id '=' num"
+_lr_signature = "num id int print println vars main repeatProg : VarBlc MainBlcVarBlc : vars '{' Dcls '}'Dcls : DclInt DclsDcls : MainBlc : main '{' Insts '}'Insts : AttrInt InstsInsts : Print InstsInsts : Println InstsInsts : Repeat InstsInsts : Repeat : RepeatS '(' num ')' '{' Insts '}' RepeatS : repeatPrint : print '(' id ')'Println : println '(' id ')'DclInt : int idDclInt : int id numDclInt : int id '=' numAttrInt : id numAttrInt : id '=' num"
     
-_lr_action_items = {'vars':([0,],[3,]),'$end':([1,4,11,15,22,23,24,],[0,-1,-5,-9,-6,-7,-8,]),'main':([2,19,],[5,-2,]),'{':([3,5,],[6,7,]),'}':([6,7,8,9,12,13,14,20,21,25,29,31,34,35,36,],[-4,15,19,-4,15,15,15,-3,-12,-15,-13,-16,-14,-10,-11,]),'int':([6,9,21,29,34,],[10,10,-12,-13,-14,]),'id':([7,10,12,13,14,25,27,28,31,35,36,],[16,21,16,16,16,-15,32,33,-16,-10,-11,]),'print':([7,12,13,14,25,31,35,36,],[17,17,17,17,-15,-16,-10,-11,]),'println':([7,12,13,14,25,31,35,36,],[18,18,18,18,-15,-16,-10,-11,]),'num':([16,21,26,30,],[25,29,31,34,]),'=':([16,21,],[26,30,]),'(':([17,18,],[27,28,]),')':([32,33,],[35,36,]),}
+_lr_action_items = {'vars':([0,],[3,]),'$end':([1,4,24,],[0,-1,-5,]),'main':([2,21,],[5,-2,]),'{':([3,5,43,],[6,7,44,]),'}':([6,7,8,9,11,12,13,14,15,22,23,25,26,27,28,29,34,36,40,41,42,44,45,46,],[-4,-10,21,-4,24,-10,-10,-10,-10,-3,-15,-6,-7,-8,-9,-18,-16,-19,-17,-13,-14,-10,46,-11,]),'int':([6,9,23,34,40,],[10,10,-15,-16,-17,]),'id':([7,10,12,13,14,15,29,31,32,36,41,42,44,46,],[16,23,16,16,16,16,-18,37,38,-19,-13,-14,16,-11,]),'print':([7,12,13,14,15,29,36,41,42,44,46,],[17,17,17,17,17,-18,-19,-13,-14,17,-11,]),'println':([7,12,13,14,15,29,36,41,42,44,46,],[18,18,18,18,18,-18,-19,-13,-14,18,-11,]),'repeat':([7,12,13,14,15,29,36,41,42,44,46,],[20,20,20,20,20,-18,-19,-13,-14,20,-11,]),'num':([16,23,30,33,35,],[29,34,36,39,40,]),'=':([16,23,],[30,35,]),'(':([17,18,19,20,],[31,32,33,-12,]),')':([37,38,39,],[41,42,43,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'Prog':([0,],[1,]),'VarBlc':([0,],[2,]),'MainBlc':([2,],[4,]),'Dcls':([6,9,],[8,20,]),'DclInt':([6,9,],[9,9,]),'Insts':([7,12,13,14,],[11,22,23,24,]),'AttrInt':([7,12,13,14,],[12,12,12,12,]),'Print':([7,12,13,14,],[13,13,13,13,]),'Println':([7,12,13,14,],[14,14,14,14,]),}
+_lr_goto_items = {'Prog':([0,],[1,]),'VarBlc':([0,],[2,]),'MainBlc':([2,],[4,]),'Dcls':([6,9,],[8,22,]),'DclInt':([6,9,],[9,9,]),'Insts':([7,12,13,14,15,44,],[11,25,26,27,28,45,]),'AttrInt':([7,12,13,14,15,44,],[12,12,12,12,12,12,]),'Print':([7,12,13,14,15,44,],[13,13,13,13,13,13,]),'Println':([7,12,13,14,15,44,],[14,14,14,14,14,14,]),'Repeat':([7,12,13,14,15,44,],[15,15,15,15,15,15,]),'RepeatS':([7,12,13,14,15,44,],[19,19,19,19,19,19,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,20 +26,23 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> Prog","S'",1,None,None,None),
-  ('Prog -> VarBlc MainBlc','Prog',2,'p_Prog','compiler_yacc.py',29),
-  ('VarBlc -> vars { Dcls }','VarBlc',4,'p_VarBlc','compiler_yacc.py',33),
-  ('Dcls -> DclInt Dcls','Dcls',2,'p_Dcls','compiler_yacc.py',36),
-  ('Dcls -> <empty>','Dcls',0,'p_Dcls_End','compiler_yacc.py',39),
-  ('MainBlc -> main { Insts','MainBlc',3,'p_MainBlc','compiler_yacc.py',43),
-  ('Insts -> AttrInt Insts','Insts',2,'p_Insts_Attr','compiler_yacc.py',46),
-  ('Insts -> Print Insts','Insts',2,'p_Insts_Print','compiler_yacc.py',49),
-  ('Insts -> Println Insts','Insts',2,'p_Insts_Println','compiler_yacc.py',52),
-  ('Insts -> }','Insts',1,'p_Insts_End','compiler_yacc.py',55),
-  ('Print -> print ( id )','Print',4,'p_Print','compiler_yacc.py',59),
-  ('Println -> println ( id )','Println',4,'p_Println','compiler_yacc.py',65),
-  ('DclInt -> int id','DclInt',2,'p_DclInt','compiler_yacc.py',73),
-  ('DclInt -> int id num','DclInt',3,'p_DclInt_Attr','compiler_yacc.py',80),
-  ('DclInt -> int id = num','DclInt',4,'p_DclInt_AttrEq','compiler_yacc.py',87),
-  ('AttrInt -> id num','AttrInt',2,'p_AttrInt','compiler_yacc.py',94),
-  ('AttrInt -> id = num','AttrInt',3,'p_AttrInt_Eq','compiler_yacc.py',100),
+  ('Prog -> VarBlc MainBlc','Prog',2,'p_Prog','compiler_yacc.py',32),
+  ('VarBlc -> vars { Dcls }','VarBlc',4,'p_VarBlc','compiler_yacc.py',35),
+  ('Dcls -> DclInt Dcls','Dcls',2,'p_Dcls','compiler_yacc.py',38),
+  ('Dcls -> <empty>','Dcls',0,'p_Dcls_End','compiler_yacc.py',41),
+  ('MainBlc -> main { Insts }','MainBlc',4,'p_MainBlc','compiler_yacc.py',47),
+  ('Insts -> AttrInt Insts','Insts',2,'p_Insts_Attr','compiler_yacc.py',51),
+  ('Insts -> Print Insts','Insts',2,'p_Insts_Print','compiler_yacc.py',54),
+  ('Insts -> Println Insts','Insts',2,'p_Insts_Println','compiler_yacc.py',57),
+  ('Insts -> Repeat Insts','Insts',2,'p_Insts_Repeat','compiler_yacc.py',60),
+  ('Insts -> <empty>','Insts',0,'p_Insts','compiler_yacc.py',63),
+  ('Repeat -> RepeatS ( num ) { Insts }','Repeat',7,'p_Repeat','compiler_yacc.py',66),
+  ('RepeatS -> repeat','RepeatS',1,'p_RepeatS','compiler_yacc.py',80),
+  ('Print -> print ( id )','Print',4,'p_Print','compiler_yacc.py',84),
+  ('Println -> println ( id )','Println',4,'p_Println','compiler_yacc.py',89),
+  ('DclInt -> int id','DclInt',2,'p_DclInt','compiler_yacc.py',96),
+  ('DclInt -> int id num','DclInt',3,'p_DclInt_Attr','compiler_yacc.py',102),
+  ('DclInt -> int id = num','DclInt',4,'p_DclInt_AttrEq','compiler_yacc.py',108),
+  ('AttrInt -> id num','AttrInt',2,'p_AttrInt','compiler_yacc.py',114),
+  ('AttrInt -> id = num','AttrInt',3,'p_AttrInt_Eq','compiler_yacc.py',119),
 ]

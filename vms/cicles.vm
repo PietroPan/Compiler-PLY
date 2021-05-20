@@ -1,0 +1,51 @@
+    pushi 0
+    pushn 10
+    pushi 0
+start
+ciclo1:
+    pushgp
+    pushi 1
+    padd
+    pushg 0
+    read
+    atoi
+    storen
+
+    pushg 0
+    pushi 1
+    add
+    storeg 0
+
+    pushg 11
+    pushi 1
+    add
+    storeg 11
+
+    pushg 11    
+    pushi 10
+    equal
+
+    jz ciclo1
+
+
+    pushi 0
+    storeg 0
+ciclo2:
+    pushgp
+    pushi 1
+    padd
+    pushg 0
+    loadn
+    writei
+
+    pushg 0
+    pushi 1
+    add
+    storeg 0
+
+    pushg 0    
+    pushi 10
+    supeq
+
+    jz ciclo2
+stop

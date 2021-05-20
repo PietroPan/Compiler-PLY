@@ -11,7 +11,7 @@
 
 import ply.lex as lex
 
-tokens = ['num', 'id', 'int','print','println','vars','main']
+tokens = ['num', 'id', 'int','print','println','vars','main','repeat']
 literals = ['=','(',')','{','}']
 
 def t_num(t):
@@ -33,6 +33,10 @@ def t_int(t):
 
 def t_vars(t):
     r'vars'
+    return t
+
+def t_repeat(t):
+    r'repeat'
     return t
 
 def t_main(t):
