@@ -12,7 +12,7 @@
 import ply.lex as lex
 
 tokens = ['num', 'id', 'int','print','println','vars','main','repeat','read']
-literals = ['=','(',')','{','}','+','*','-','/']
+literals = ['=','(',')','{','}','+','*','-','/','[',']']
 
 def t_num(t):
     r'\d+'

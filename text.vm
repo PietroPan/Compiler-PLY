@@ -1,16 +1,68 @@
 pushi 0
-pushi 9
+pushi 0
+pushi 0
+pushn 3
 pushn 10
+pushn 12
 start
-read
-atoi
+ciclo1:
+pushg 0
+pushi 1
+add
 storeg 0
 pushg 0
-pushi 2
-pushi 4
-mul
+pushi 1
+sub
+storeg 26
+pushg 0
+storeg 27
+pushgp
+pushi 6
+padd
+pushg 26
+pushg 27
+storen
+pushg 16
+pushi 1
 add
+storeg 16
+pushg 16
+pushi 10
+equal
+jz ciclo1
+pushi 0
+storeg 16
+pushi 0
+storeg 0
+ciclo2:
+pushg 0
+storeg 26
+pushgp
+pushi 6
+padd
+pushg 26
+loadn
+storeg 2
 pushg 1
+pushg 2
 add
+storeg 1
+pushg 0
+pushi 1
+add
+storeg 0
+pushg 16
+pushi 1
+add
+storeg 16
+pushg 16
+pushi 10
+equal
+jz ciclo2
+pushi 0
+storeg 16
+pushg 1
 writei
+pushs "\n"
+writes
 stop
