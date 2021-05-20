@@ -1,23 +1,28 @@
 vars {
-    int i1=0
-    int soma
-    int aux
-    int a[3]
-    int b[10]
+    int i
+    int j
+    int a[3][5]
 }
 
 main {
-    repeat(10){
-        i1=i1+1
-        b[i1-1]=i1
+    repeat(3){
+        repeat(5){
+            a[i][j]=i*5+j
+            j=j+1
+        }
+        j=0
+        i=i+1
     }
-    i1=0
-    repeat(10){
-        aux=b[i1]
-        soma=soma+aux
-        i1=i1+1
+    i=0
+    j=0
+
+    repeat(3){
+        repeat(5){
+            print(a[i][j])
+            j=j+1
+        }
+        j=0
+        println(0)
+        i=i+1
     }
-
-    println(soma)
-
 }

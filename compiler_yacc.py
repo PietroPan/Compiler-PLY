@@ -2,6 +2,14 @@ import sys
 import ply.yacc as yacc
 from compiler_lex import tokens
 
+# Condicoes
+# Ciclo for
+# Ciclo while
+# Subprograms
+# int a[4] = 5
+# a[] = 5
+
+
 # Prog -> VarBlc MainBlc
 #
 # VarBlc -> vars '{' Dcls '}'
@@ -58,11 +66,9 @@ def p_Dcls(p):
 
 def p_Dcls_End(p):
     "Dcls : "
-    out.write("pushn 12\n")
+    out.write("pushn 10\n")
     out.write("start\n")
     p.parser.table["0ciclo"]=[0,1,2,3,4,5,6,7,8,9]
-    p.parser.table["0arr1"]=10
-    p.parser.table["0arr2"]=11
 
 def p_MainBlc(p):
     "MainBlc : main '{' Insts '}'"
@@ -136,6 +142,12 @@ def p_Dcl_Arr(p):
     p.parser.table[p[2]]=p.parser.offset
     p.parser.offset+=p[4]
 
+def p_Dcl_Arr_2D(p):
+    "Dcl : int id '[' num ']' '[' num ']'"
+    out.write("pushn "+str(p[4]*p[7])+"\n")
+    p.parser.table[p[2]]=(p.parser.offset,p[7])
+    p.parser.offset+=p[4]*p[7]
+
 def p_Dcl_0(p):
     "Dcl : int id"
     out.write("pushi 0\n")
@@ -155,27 +167,25 @@ def p_Attr(p):
 
 def p_Attr_arr(p):
     "Attr : id '[' Exp ']' '=' Exp"
-    out.write(p[3])
-    out.write("storeg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
-    out.write(p[6])
-    out.write("storeg "+str(p.parser.table["0arr2"]+p.parser.offset)+"\n")
     out.write("pushgp\n")
     out.write("pushi "+str(p.parser.table[p[1]])+"\n")
     out.write("padd\n")
-    out.write("pushg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
-    out.write("pushg "+str(p.parser.table["0arr2"]+p.parser.offset)+"\n")
+    out.write(p[3])
+    out.write(p[6])
     out.write("storen\n")
 
-def p_Attr_i_arr(p):
-    "Attr : id '=' id '[' Exp ']'"
-    out.write(p[5])
-    out.write("storeg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
+def p_Attr_arr2D(p):
+    "Attr : id '[' Exp ']' '[' Exp ']' '=' Exp"
     out.write("pushgp\n")
-    out.write("pushi "+str(p.parser.table[p[3]])+"\n")
+    out.write("pushi "+str(p.parser.table[p[1]][0])+"\n")
     out.write("padd\n")
-    out.write("pushg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
-    out.write("loadn\n")
-    out.write("storeg "+str(p.parser.table[p[1]])+"\n")
+    out.write(p[3])
+    out.write("pushi "+str(p.parser.table[p[1]][1])+"\n") #Tamanho das linhas
+    out.write("mul\n")
+    out.write(p[6])
+    out.write("add\n")
+    out.write(p[9])
+    out.write("storen\n")
 
 
 
@@ -211,19 +221,15 @@ def p_Factor_num(p):
     "Factor : num"
     p[0] = "pushi "+str(p[1])+"\n"
 
-#def p_Factor_arr(p):
-#    "Factor : id '[' num ']'"
-#    #out.write(p[3])
-#    #out.write("storeg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
-#    out.write("pushgp\n")
-#    out.write("pushi "+str(p.parser.table[p[1]])+"\n")
-#    out.write("padd\n")
-#    out.write("pushg "+str(p[3])+"\n")
-#    out.write("loadn\n")
-#    out.write("storeg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
-#    out.write("pop 4")
-#    out.write("pushg "+str(p.parser.table["0arr1"]+p.parser.offset)+"\n")
-#    p[0] = "pushi "+str(p[1])+"\n"
+
+def p_Factor_arr(p):
+    "Factor : id '[' Exp ']'"
+    p[0]="pushgp\n"+"pushi "+str(p.parser.table[p[1]])+"\n"+"padd\n"+p[3]+"loadn\n"
+
+def p_Factor_arr_2d(p):
+    "Factor : id '[' Exp ']' '[' Exp ']'"
+    p[0]="pushgp\n"+"pushi "+str(p.parser.table[p[1]][0])+"\n"+"padd\n"+p[3]+"pushi "+str(p.parser.table[p[1]][1])+"\n"+"mul\n"+p[6]+"add\n"+"loadn\n"
+
 
 def p_Factor_group(p):
     "Factor : '(' Exp ')'"

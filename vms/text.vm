@@ -1,21 +1,54 @@
 pushi 0
-pushi 9
 pushi 0
+pushn 15
+pushn 10
 start
+ciclo1:
+ciclo2:
+pushgp
 pushi 2
-storeg 0
-pushi 10
-storeg 2
+padd
 pushg 0
-writei
-pushs "\n"
-writes
+pushi 3
+mul
 pushg 1
-writei
-pushs "\n"
-writes
-pushg 2
-writei
-pushs "\n"
-writes
+add
+pushg 0
+pushi 3
+mul
+pushg 1
+add
+storen
+pushg 1
+pushi 1
+add
+storeg 1
+pushg 18
+pushi 1
+add
+storeg 18
+pushg 18
+pushi 5
+equal
+jz ciclo2
+pushi 0
+storeg 18
+pushg 0
+pushi 1
+add
+storeg 0
+pushg 17
+pushi 1
+add
+storeg 17
+pushg 17
+pushi 3
+equal
+jz ciclo1
+pushi 0
+storeg 17
+pushi 0
+storeg 0
+pushi 0
+storeg 1
 stop
