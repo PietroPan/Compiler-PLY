@@ -1,13 +1,10 @@
 vars {
     int a 
     int b = 9
-    int c
+
 }
 
 main {
-    a=2
-    c 10
-    println(a)
-    println(b)
-    println(c)
+    read(a)
+    print(a+2*4+b)
 }

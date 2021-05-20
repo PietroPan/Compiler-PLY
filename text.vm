@@ -1,21 +1,16 @@
 pushi 0
 pushi 9
-pushi 0
+pushn 10
 start
-pushi 2
+read
+atoi
 storeg 0
-pushi 10
-storeg 2
 pushg 0
-writei
-pushs "\n"
-writes
+pushi 2
+pushi 4
+mul
+add
 pushg 1
+add
 writei
-pushs "\n"
-writes
-pushg 2
-writei
-pushs "\n"
-writes
 stop

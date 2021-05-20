@@ -12,46 +12,66 @@ Rule 6     Insts -> AttrInt Insts
 Rule 7     Insts -> Print Insts
 Rule 8     Insts -> Println Insts
 Rule 9     Insts -> Repeat Insts
-Rule 10    Insts -> <empty>
-Rule 11    Repeat -> RepeatS ( num ) { Insts }
-Rule 12    RepeatS -> repeat
-Rule 13    Print -> print ( id )
-Rule 14    Println -> println ( id )
-Rule 15    DclInt -> int id
-Rule 16    DclInt -> int id num
-Rule 17    DclInt -> int id = num
-Rule 18    AttrInt -> id num
-Rule 19    AttrInt -> id = num
+Rule 10    Insts -> Read Insts
+Rule 11    Insts -> <empty>
+Rule 12    Repeat -> RepeatS ( num ) { Insts }
+Rule 13    RepeatS -> repeat
+Rule 14    Read -> read ( id )
+Rule 15    Print -> print ( Exp )
+Rule 16    Println -> println ( Exp )
+Rule 17    DclInt -> int id
+Rule 18    DclInt -> int id num
+Rule 19    DclInt -> int id = num
+Rule 20    AttrInt -> id num
+Rule 21    AttrInt -> id = Exp
+Rule 22    Exp -> Exp + Term
+Rule 23    Exp -> Exp - Term
+Rule 24    Exp -> Term
+Rule 25    Term -> Term * Factor
+Rule 26    Term -> Term / Factor
+Rule 27    Term -> Factor
+Rule 28    Factor -> id
+Rule 29    Factor -> num
+Rule 30    Factor -> ( Exp )
 
 Terminals, with rules where they appear
 
-(                    : 11 13 14
-)                    : 11 13 14
-=                    : 17 19
+(                    : 12 14 15 16 30
+)                    : 12 14 15 16 30
+*                    : 25
++                    : 22
+-                    : 23
+/                    : 26
+=                    : 19 21
 error                : 
-id                   : 13 14 15 16 17 18 19
-int                  : 15 16 17
+id                   : 14 17 18 19 20 21 28
+int                  : 17 18 19
 main                 : 5
-num                  : 11 16 17 18 19
-print                : 13
-println              : 14
-repeat               : 12
+num                  : 12 18 19 20 29
+print                : 15
+println              : 16
+read                 : 14
+repeat               : 13
 vars                 : 2
-{                    : 2 5 11
-}                    : 2 5 11
+{                    : 2 5 12
+}                    : 2 5 12
 
 Nonterminals, with rules where they appear
 
 AttrInt              : 6
 DclInt               : 3
 Dcls                 : 2 3
-Insts                : 5 6 7 8 9 11
+Exp                  : 15 16 21 22 23 30
+Factor               : 25 26 27
+Insts                : 5 6 7 8 9 10 12
 MainBlc              : 1
 Print                : 7
 Println              : 8
 Prog                 : 0
+Read                 : 10
 Repeat               : 9
-RepeatS              : 11
+RepeatS              : 12
+Term                 : 22 23 24 25 26
 VarBlc               : 1
 
 Parsing method: LALR
@@ -108,9 +128,9 @@ state 6
     (2) VarBlc -> vars { . Dcls }
     (3) Dcls -> . DclInt Dcls
     (4) Dcls -> .
-    (15) DclInt -> . int id
-    (16) DclInt -> . int id num
-    (17) DclInt -> . int id = num
+    (17) DclInt -> . int id
+    (18) DclInt -> . int id num
+    (19) DclInt -> . int id = num
 
     }               reduce using rule 4 (Dcls -> .)
     int             shift and go to state 10
@@ -125,32 +145,36 @@ state 7
     (7) Insts -> . Print Insts
     (8) Insts -> . Println Insts
     (9) Insts -> . Repeat Insts
-    (10) Insts -> .
-    (18) AttrInt -> . id num
-    (19) AttrInt -> . id = num
-    (13) Print -> . print ( id )
-    (14) Println -> . println ( id )
-    (11) Repeat -> . RepeatS ( num ) { Insts }
-    (12) RepeatS -> . repeat
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    }               reduce using rule 10 (Insts -> .)
-    id              shift and go to state 16
-    print           shift and go to state 17
-    println         shift and go to state 18
-    repeat          shift and go to state 20
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
     Insts                          shift and go to state 11
     AttrInt                        shift and go to state 12
     Print                          shift and go to state 13
     Println                        shift and go to state 14
     Repeat                         shift and go to state 15
-    RepeatS                        shift and go to state 19
+    Read                           shift and go to state 16
+    RepeatS                        shift and go to state 20
 
 state 8
 
     (2) VarBlc -> vars { Dcls . }
 
-    }               shift and go to state 21
+    }               shift and go to state 23
 
 
 state 9
@@ -158,30 +182,30 @@ state 9
     (3) Dcls -> DclInt . Dcls
     (3) Dcls -> . DclInt Dcls
     (4) Dcls -> .
-    (15) DclInt -> . int id
-    (16) DclInt -> . int id num
-    (17) DclInt -> . int id = num
+    (17) DclInt -> . int id
+    (18) DclInt -> . int id num
+    (19) DclInt -> . int id = num
 
     }               reduce using rule 4 (Dcls -> .)
     int             shift and go to state 10
 
     DclInt                         shift and go to state 9
-    Dcls                           shift and go to state 22
+    Dcls                           shift and go to state 24
 
 state 10
 
-    (15) DclInt -> int . id
-    (16) DclInt -> int . id num
-    (17) DclInt -> int . id = num
+    (17) DclInt -> int . id
+    (18) DclInt -> int . id num
+    (19) DclInt -> int . id = num
 
-    id              shift and go to state 23
+    id              shift and go to state 25
 
 
 state 11
 
     (5) MainBlc -> main { Insts . }
 
-    }               shift and go to state 24
+    }               shift and go to state 26
 
 
 state 12
@@ -191,26 +215,30 @@ state 12
     (7) Insts -> . Print Insts
     (8) Insts -> . Println Insts
     (9) Insts -> . Repeat Insts
-    (10) Insts -> .
-    (18) AttrInt -> . id num
-    (19) AttrInt -> . id = num
-    (13) Print -> . print ( id )
-    (14) Println -> . println ( id )
-    (11) Repeat -> . RepeatS ( num ) { Insts }
-    (12) RepeatS -> . repeat
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    }               reduce using rule 10 (Insts -> .)
-    id              shift and go to state 16
-    print           shift and go to state 17
-    println         shift and go to state 18
-    repeat          shift and go to state 20
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
     AttrInt                        shift and go to state 12
-    Insts                          shift and go to state 25
+    Insts                          shift and go to state 27
     Print                          shift and go to state 13
     Println                        shift and go to state 14
     Repeat                         shift and go to state 15
-    RepeatS                        shift and go to state 19
+    Read                           shift and go to state 16
+    RepeatS                        shift and go to state 20
 
 state 13
 
@@ -219,26 +247,30 @@ state 13
     (7) Insts -> . Print Insts
     (8) Insts -> . Println Insts
     (9) Insts -> . Repeat Insts
-    (10) Insts -> .
-    (18) AttrInt -> . id num
-    (19) AttrInt -> . id = num
-    (13) Print -> . print ( id )
-    (14) Println -> . println ( id )
-    (11) Repeat -> . RepeatS ( num ) { Insts }
-    (12) RepeatS -> . repeat
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    }               reduce using rule 10 (Insts -> .)
-    id              shift and go to state 16
-    print           shift and go to state 17
-    println         shift and go to state 18
-    repeat          shift and go to state 20
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
     Print                          shift and go to state 13
-    Insts                          shift and go to state 26
+    Insts                          shift and go to state 28
     AttrInt                        shift and go to state 12
     Println                        shift and go to state 14
     Repeat                         shift and go to state 15
-    RepeatS                        shift and go to state 19
+    Read                           shift and go to state 16
+    RepeatS                        shift and go to state 20
 
 state 14
 
@@ -247,26 +279,30 @@ state 14
     (7) Insts -> . Print Insts
     (8) Insts -> . Println Insts
     (9) Insts -> . Repeat Insts
-    (10) Insts -> .
-    (18) AttrInt -> . id num
-    (19) AttrInt -> . id = num
-    (13) Print -> . print ( id )
-    (14) Println -> . println ( id )
-    (11) Repeat -> . RepeatS ( num ) { Insts }
-    (12) RepeatS -> . repeat
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    }               reduce using rule 10 (Insts -> .)
-    id              shift and go to state 16
-    print           shift and go to state 17
-    println         shift and go to state 18
-    repeat          shift and go to state 20
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
     Println                        shift and go to state 14
-    Insts                          shift and go to state 27
+    Insts                          shift and go to state 29
     AttrInt                        shift and go to state 12
     Print                          shift and go to state 13
     Repeat                         shift and go to state 15
-    RepeatS                        shift and go to state 19
+    Read                           shift and go to state 16
+    RepeatS                        shift and go to state 20
 
 state 15
 
@@ -275,290 +311,680 @@ state 15
     (7) Insts -> . Print Insts
     (8) Insts -> . Println Insts
     (9) Insts -> . Repeat Insts
-    (10) Insts -> .
-    (18) AttrInt -> . id num
-    (19) AttrInt -> . id = num
-    (13) Print -> . print ( id )
-    (14) Println -> . println ( id )
-    (11) Repeat -> . RepeatS ( num ) { Insts }
-    (12) RepeatS -> . repeat
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    }               reduce using rule 10 (Insts -> .)
-    id              shift and go to state 16
-    print           shift and go to state 17
-    println         shift and go to state 18
-    repeat          shift and go to state 20
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
     Repeat                         shift and go to state 15
-    Insts                          shift and go to state 28
+    Insts                          shift and go to state 30
     AttrInt                        shift and go to state 12
     Print                          shift and go to state 13
     Println                        shift and go to state 14
-    RepeatS                        shift and go to state 19
+    Read                           shift and go to state 16
+    RepeatS                        shift and go to state 20
 
 state 16
 
-    (18) AttrInt -> id . num
-    (19) AttrInt -> id . = num
+    (10) Insts -> Read . Insts
+    (6) Insts -> . AttrInt Insts
+    (7) Insts -> . Print Insts
+    (8) Insts -> . Println Insts
+    (9) Insts -> . Repeat Insts
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    num             shift and go to state 29
-    =               shift and go to state 30
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
+    Read                           shift and go to state 16
+    Insts                          shift and go to state 31
+    AttrInt                        shift and go to state 12
+    Print                          shift and go to state 13
+    Println                        shift and go to state 14
+    Repeat                         shift and go to state 15
+    RepeatS                        shift and go to state 20
 
 state 17
 
-    (13) Print -> print . ( id )
+    (20) AttrInt -> id . num
+    (21) AttrInt -> id . = Exp
 
-    (               shift and go to state 31
+    num             shift and go to state 32
+    =               shift and go to state 33
 
 
 state 18
 
-    (14) Println -> println . ( id )
+    (15) Print -> print . ( Exp )
 
-    (               shift and go to state 32
+    (               shift and go to state 34
 
 
 state 19
 
-    (11) Repeat -> RepeatS . ( num ) { Insts }
+    (16) Println -> println . ( Exp )
 
-    (               shift and go to state 33
+    (               shift and go to state 35
 
 
 state 20
 
-    (12) RepeatS -> repeat .
+    (12) Repeat -> RepeatS . ( num ) { Insts }
 
-    (               reduce using rule 12 (RepeatS -> repeat .)
+    (               shift and go to state 36
 
 
 state 21
+
+    (14) Read -> read . ( id )
+
+    (               shift and go to state 37
+
+
+state 22
+
+    (13) RepeatS -> repeat .
+
+    (               reduce using rule 13 (RepeatS -> repeat .)
+
+
+state 23
 
     (2) VarBlc -> vars { Dcls } .
 
     main            reduce using rule 2 (VarBlc -> vars { Dcls } .)
 
 
-state 22
+state 24
 
     (3) Dcls -> DclInt Dcls .
 
     }               reduce using rule 3 (Dcls -> DclInt Dcls .)
 
 
-state 23
+state 25
 
-    (15) DclInt -> int id .
-    (16) DclInt -> int id . num
-    (17) DclInt -> int id . = num
+    (17) DclInt -> int id .
+    (18) DclInt -> int id . num
+    (19) DclInt -> int id . = num
 
-    int             reduce using rule 15 (DclInt -> int id .)
-    }               reduce using rule 15 (DclInt -> int id .)
-    num             shift and go to state 34
-    =               shift and go to state 35
+    int             reduce using rule 17 (DclInt -> int id .)
+    }               reduce using rule 17 (DclInt -> int id .)
+    num             shift and go to state 38
+    =               shift and go to state 39
 
 
-state 24
+state 26
 
     (5) MainBlc -> main { Insts } .
 
     $end            reduce using rule 5 (MainBlc -> main { Insts } .)
 
 
-state 25
+state 27
 
     (6) Insts -> AttrInt Insts .
 
     }               reduce using rule 6 (Insts -> AttrInt Insts .)
 
 
-state 26
+state 28
 
     (7) Insts -> Print Insts .
 
     }               reduce using rule 7 (Insts -> Print Insts .)
 
 
-state 27
+state 29
 
     (8) Insts -> Println Insts .
 
     }               reduce using rule 8 (Insts -> Println Insts .)
 
 
-state 28
+state 30
 
     (9) Insts -> Repeat Insts .
 
     }               reduce using rule 9 (Insts -> Repeat Insts .)
 
 
-state 29
-
-    (18) AttrInt -> id num .
-
-    id              reduce using rule 18 (AttrInt -> id num .)
-    print           reduce using rule 18 (AttrInt -> id num .)
-    println         reduce using rule 18 (AttrInt -> id num .)
-    repeat          reduce using rule 18 (AttrInt -> id num .)
-    }               reduce using rule 18 (AttrInt -> id num .)
-
-
-state 30
-
-    (19) AttrInt -> id = . num
-
-    num             shift and go to state 36
-
-
 state 31
 
-    (13) Print -> print ( . id )
+    (10) Insts -> Read Insts .
 
-    id              shift and go to state 37
+    }               reduce using rule 10 (Insts -> Read Insts .)
 
 
 state 32
 
-    (14) Println -> println ( . id )
+    (20) AttrInt -> id num .
 
-    id              shift and go to state 38
+    id              reduce using rule 20 (AttrInt -> id num .)
+    print           reduce using rule 20 (AttrInt -> id num .)
+    println         reduce using rule 20 (AttrInt -> id num .)
+    read            reduce using rule 20 (AttrInt -> id num .)
+    repeat          reduce using rule 20 (AttrInt -> id num .)
+    }               reduce using rule 20 (AttrInt -> id num .)
 
 
 state 33
 
-    (11) Repeat -> RepeatS ( . num ) { Insts }
+    (21) AttrInt -> id = . Exp
+    (22) Exp -> . Exp + Term
+    (23) Exp -> . Exp - Term
+    (24) Exp -> . Term
+    (25) Term -> . Term * Factor
+    (26) Term -> . Term / Factor
+    (27) Term -> . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
 
-    num             shift and go to state 39
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
 
+    Exp                            shift and go to state 41
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
 
 state 34
 
-    (16) DclInt -> int id num .
+    (15) Print -> print ( . Exp )
+    (22) Exp -> . Exp + Term
+    (23) Exp -> . Exp - Term
+    (24) Exp -> . Term
+    (25) Term -> . Term * Factor
+    (26) Term -> . Term / Factor
+    (27) Term -> . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
 
-    int             reduce using rule 16 (DclInt -> int id num .)
-    }               reduce using rule 16 (DclInt -> int id num .)
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
 
+    Exp                            shift and go to state 46
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
 
 state 35
 
-    (17) DclInt -> int id = . num
+    (16) Println -> println ( . Exp )
+    (22) Exp -> . Exp + Term
+    (23) Exp -> . Exp - Term
+    (24) Exp -> . Term
+    (25) Term -> . Term * Factor
+    (26) Term -> . Term / Factor
+    (27) Term -> . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
 
-    num             shift and go to state 40
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
 
+    Exp                            shift and go to state 47
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
 
 state 36
 
-    (19) AttrInt -> id = num .
+    (12) Repeat -> RepeatS ( . num ) { Insts }
 
-    id              reduce using rule 19 (AttrInt -> id = num .)
-    print           reduce using rule 19 (AttrInt -> id = num .)
-    println         reduce using rule 19 (AttrInt -> id = num .)
-    repeat          reduce using rule 19 (AttrInt -> id = num .)
-    }               reduce using rule 19 (AttrInt -> id = num .)
+    num             shift and go to state 48
 
 
 state 37
 
-    (13) Print -> print ( id . )
+    (14) Read -> read ( . id )
 
-    )               shift and go to state 41
+    id              shift and go to state 49
 
 
 state 38
 
-    (14) Println -> println ( id . )
+    (18) DclInt -> int id num .
 
-    )               shift and go to state 42
+    int             reduce using rule 18 (DclInt -> int id num .)
+    }               reduce using rule 18 (DclInt -> int id num .)
 
 
 state 39
 
-    (11) Repeat -> RepeatS ( num . ) { Insts }
+    (19) DclInt -> int id = . num
 
-    )               shift and go to state 43
+    num             shift and go to state 50
 
 
 state 40
 
-    (17) DclInt -> int id = num .
+    (28) Factor -> id .
 
-    int             reduce using rule 17 (DclInt -> int id = num .)
-    }               reduce using rule 17 (DclInt -> int id = num .)
+    *               reduce using rule 28 (Factor -> id .)
+    /               reduce using rule 28 (Factor -> id .)
+    +               reduce using rule 28 (Factor -> id .)
+    -               reduce using rule 28 (Factor -> id .)
+    id              reduce using rule 28 (Factor -> id .)
+    print           reduce using rule 28 (Factor -> id .)
+    println         reduce using rule 28 (Factor -> id .)
+    read            reduce using rule 28 (Factor -> id .)
+    repeat          reduce using rule 28 (Factor -> id .)
+    }               reduce using rule 28 (Factor -> id .)
+    )               reduce using rule 28 (Factor -> id .)
 
 
 state 41
 
-    (13) Print -> print ( id ) .
+    (21) AttrInt -> id = Exp .
+    (22) Exp -> Exp . + Term
+    (23) Exp -> Exp . - Term
 
-    id              reduce using rule 13 (Print -> print ( id ) .)
-    print           reduce using rule 13 (Print -> print ( id ) .)
-    println         reduce using rule 13 (Print -> print ( id ) .)
-    repeat          reduce using rule 13 (Print -> print ( id ) .)
-    }               reduce using rule 13 (Print -> print ( id ) .)
+    id              reduce using rule 21 (AttrInt -> id = Exp .)
+    print           reduce using rule 21 (AttrInt -> id = Exp .)
+    println         reduce using rule 21 (AttrInt -> id = Exp .)
+    read            reduce using rule 21 (AttrInt -> id = Exp .)
+    repeat          reduce using rule 21 (AttrInt -> id = Exp .)
+    }               reduce using rule 21 (AttrInt -> id = Exp .)
+    +               shift and go to state 51
+    -               shift and go to state 52
 
 
 state 42
 
-    (14) Println -> println ( id ) .
+    (24) Exp -> Term .
+    (25) Term -> Term . * Factor
+    (26) Term -> Term . / Factor
 
-    id              reduce using rule 14 (Println -> println ( id ) .)
-    print           reduce using rule 14 (Println -> println ( id ) .)
-    println         reduce using rule 14 (Println -> println ( id ) .)
-    repeat          reduce using rule 14 (Println -> println ( id ) .)
-    }               reduce using rule 14 (Println -> println ( id ) .)
+    +               reduce using rule 24 (Exp -> Term .)
+    -               reduce using rule 24 (Exp -> Term .)
+    id              reduce using rule 24 (Exp -> Term .)
+    print           reduce using rule 24 (Exp -> Term .)
+    println         reduce using rule 24 (Exp -> Term .)
+    read            reduce using rule 24 (Exp -> Term .)
+    repeat          reduce using rule 24 (Exp -> Term .)
+    }               reduce using rule 24 (Exp -> Term .)
+    )               reduce using rule 24 (Exp -> Term .)
+    *               shift and go to state 53
+    /               shift and go to state 54
 
 
 state 43
 
-    (11) Repeat -> RepeatS ( num ) . { Insts }
+    (27) Term -> Factor .
 
-    {               shift and go to state 44
+    *               reduce using rule 27 (Term -> Factor .)
+    /               reduce using rule 27 (Term -> Factor .)
+    +               reduce using rule 27 (Term -> Factor .)
+    -               reduce using rule 27 (Term -> Factor .)
+    id              reduce using rule 27 (Term -> Factor .)
+    print           reduce using rule 27 (Term -> Factor .)
+    println         reduce using rule 27 (Term -> Factor .)
+    read            reduce using rule 27 (Term -> Factor .)
+    repeat          reduce using rule 27 (Term -> Factor .)
+    }               reduce using rule 27 (Term -> Factor .)
+    )               reduce using rule 27 (Term -> Factor .)
 
 
 state 44
 
-    (11) Repeat -> RepeatS ( num ) { . Insts }
+    (29) Factor -> num .
+
+    *               reduce using rule 29 (Factor -> num .)
+    /               reduce using rule 29 (Factor -> num .)
+    +               reduce using rule 29 (Factor -> num .)
+    -               reduce using rule 29 (Factor -> num .)
+    id              reduce using rule 29 (Factor -> num .)
+    print           reduce using rule 29 (Factor -> num .)
+    println         reduce using rule 29 (Factor -> num .)
+    read            reduce using rule 29 (Factor -> num .)
+    repeat          reduce using rule 29 (Factor -> num .)
+    }               reduce using rule 29 (Factor -> num .)
+    )               reduce using rule 29 (Factor -> num .)
+
+
+state 45
+
+    (30) Factor -> ( . Exp )
+    (22) Exp -> . Exp + Term
+    (23) Exp -> . Exp - Term
+    (24) Exp -> . Term
+    (25) Term -> . Term * Factor
+    (26) Term -> . Term / Factor
+    (27) Term -> . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 55
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 46
+
+    (15) Print -> print ( Exp . )
+    (22) Exp -> Exp . + Term
+    (23) Exp -> Exp . - Term
+
+    )               shift and go to state 56
+    +               shift and go to state 51
+    -               shift and go to state 52
+
+
+state 47
+
+    (16) Println -> println ( Exp . )
+    (22) Exp -> Exp . + Term
+    (23) Exp -> Exp . - Term
+
+    )               shift and go to state 57
+    +               shift and go to state 51
+    -               shift and go to state 52
+
+
+state 48
+
+    (12) Repeat -> RepeatS ( num . ) { Insts }
+
+    )               shift and go to state 58
+
+
+state 49
+
+    (14) Read -> read ( id . )
+
+    )               shift and go to state 59
+
+
+state 50
+
+    (19) DclInt -> int id = num .
+
+    int             reduce using rule 19 (DclInt -> int id = num .)
+    }               reduce using rule 19 (DclInt -> int id = num .)
+
+
+state 51
+
+    (22) Exp -> Exp + . Term
+    (25) Term -> . Term * Factor
+    (26) Term -> . Term / Factor
+    (27) Term -> . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Term                           shift and go to state 60
+    Factor                         shift and go to state 43
+
+state 52
+
+    (23) Exp -> Exp - . Term
+    (25) Term -> . Term * Factor
+    (26) Term -> . Term / Factor
+    (27) Term -> . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Term                           shift and go to state 61
+    Factor                         shift and go to state 43
+
+state 53
+
+    (25) Term -> Term * . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Factor                         shift and go to state 62
+
+state 54
+
+    (26) Term -> Term / . Factor
+    (28) Factor -> . id
+    (29) Factor -> . num
+    (30) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Factor                         shift and go to state 63
+
+state 55
+
+    (30) Factor -> ( Exp . )
+    (22) Exp -> Exp . + Term
+    (23) Exp -> Exp . - Term
+
+    )               shift and go to state 64
+    +               shift and go to state 51
+    -               shift and go to state 52
+
+
+state 56
+
+    (15) Print -> print ( Exp ) .
+
+    id              reduce using rule 15 (Print -> print ( Exp ) .)
+    print           reduce using rule 15 (Print -> print ( Exp ) .)
+    println         reduce using rule 15 (Print -> print ( Exp ) .)
+    read            reduce using rule 15 (Print -> print ( Exp ) .)
+    repeat          reduce using rule 15 (Print -> print ( Exp ) .)
+    }               reduce using rule 15 (Print -> print ( Exp ) .)
+
+
+state 57
+
+    (16) Println -> println ( Exp ) .
+
+    id              reduce using rule 16 (Println -> println ( Exp ) .)
+    print           reduce using rule 16 (Println -> println ( Exp ) .)
+    println         reduce using rule 16 (Println -> println ( Exp ) .)
+    read            reduce using rule 16 (Println -> println ( Exp ) .)
+    repeat          reduce using rule 16 (Println -> println ( Exp ) .)
+    }               reduce using rule 16 (Println -> println ( Exp ) .)
+
+
+state 58
+
+    (12) Repeat -> RepeatS ( num ) . { Insts }
+
+    {               shift and go to state 65
+
+
+state 59
+
+    (14) Read -> read ( id ) .
+
+    id              reduce using rule 14 (Read -> read ( id ) .)
+    print           reduce using rule 14 (Read -> read ( id ) .)
+    println         reduce using rule 14 (Read -> read ( id ) .)
+    read            reduce using rule 14 (Read -> read ( id ) .)
+    repeat          reduce using rule 14 (Read -> read ( id ) .)
+    }               reduce using rule 14 (Read -> read ( id ) .)
+
+
+state 60
+
+    (22) Exp -> Exp + Term .
+    (25) Term -> Term . * Factor
+    (26) Term -> Term . / Factor
+
+    +               reduce using rule 22 (Exp -> Exp + Term .)
+    -               reduce using rule 22 (Exp -> Exp + Term .)
+    id              reduce using rule 22 (Exp -> Exp + Term .)
+    print           reduce using rule 22 (Exp -> Exp + Term .)
+    println         reduce using rule 22 (Exp -> Exp + Term .)
+    read            reduce using rule 22 (Exp -> Exp + Term .)
+    repeat          reduce using rule 22 (Exp -> Exp + Term .)
+    }               reduce using rule 22 (Exp -> Exp + Term .)
+    )               reduce using rule 22 (Exp -> Exp + Term .)
+    *               shift and go to state 53
+    /               shift and go to state 54
+
+
+state 61
+
+    (23) Exp -> Exp - Term .
+    (25) Term -> Term . * Factor
+    (26) Term -> Term . / Factor
+
+    +               reduce using rule 23 (Exp -> Exp - Term .)
+    -               reduce using rule 23 (Exp -> Exp - Term .)
+    id              reduce using rule 23 (Exp -> Exp - Term .)
+    print           reduce using rule 23 (Exp -> Exp - Term .)
+    println         reduce using rule 23 (Exp -> Exp - Term .)
+    read            reduce using rule 23 (Exp -> Exp - Term .)
+    repeat          reduce using rule 23 (Exp -> Exp - Term .)
+    }               reduce using rule 23 (Exp -> Exp - Term .)
+    )               reduce using rule 23 (Exp -> Exp - Term .)
+    *               shift and go to state 53
+    /               shift and go to state 54
+
+
+state 62
+
+    (25) Term -> Term * Factor .
+
+    *               reduce using rule 25 (Term -> Term * Factor .)
+    /               reduce using rule 25 (Term -> Term * Factor .)
+    +               reduce using rule 25 (Term -> Term * Factor .)
+    -               reduce using rule 25 (Term -> Term * Factor .)
+    id              reduce using rule 25 (Term -> Term * Factor .)
+    print           reduce using rule 25 (Term -> Term * Factor .)
+    println         reduce using rule 25 (Term -> Term * Factor .)
+    read            reduce using rule 25 (Term -> Term * Factor .)
+    repeat          reduce using rule 25 (Term -> Term * Factor .)
+    }               reduce using rule 25 (Term -> Term * Factor .)
+    )               reduce using rule 25 (Term -> Term * Factor .)
+
+
+state 63
+
+    (26) Term -> Term / Factor .
+
+    *               reduce using rule 26 (Term -> Term / Factor .)
+    /               reduce using rule 26 (Term -> Term / Factor .)
+    +               reduce using rule 26 (Term -> Term / Factor .)
+    -               reduce using rule 26 (Term -> Term / Factor .)
+    id              reduce using rule 26 (Term -> Term / Factor .)
+    print           reduce using rule 26 (Term -> Term / Factor .)
+    println         reduce using rule 26 (Term -> Term / Factor .)
+    read            reduce using rule 26 (Term -> Term / Factor .)
+    repeat          reduce using rule 26 (Term -> Term / Factor .)
+    }               reduce using rule 26 (Term -> Term / Factor .)
+    )               reduce using rule 26 (Term -> Term / Factor .)
+
+
+state 64
+
+    (30) Factor -> ( Exp ) .
+
+    *               reduce using rule 30 (Factor -> ( Exp ) .)
+    /               reduce using rule 30 (Factor -> ( Exp ) .)
+    +               reduce using rule 30 (Factor -> ( Exp ) .)
+    -               reduce using rule 30 (Factor -> ( Exp ) .)
+    id              reduce using rule 30 (Factor -> ( Exp ) .)
+    print           reduce using rule 30 (Factor -> ( Exp ) .)
+    println         reduce using rule 30 (Factor -> ( Exp ) .)
+    read            reduce using rule 30 (Factor -> ( Exp ) .)
+    repeat          reduce using rule 30 (Factor -> ( Exp ) .)
+    }               reduce using rule 30 (Factor -> ( Exp ) .)
+    )               reduce using rule 30 (Factor -> ( Exp ) .)
+
+
+state 65
+
+    (12) Repeat -> RepeatS ( num ) { . Insts }
     (6) Insts -> . AttrInt Insts
     (7) Insts -> . Print Insts
     (8) Insts -> . Println Insts
     (9) Insts -> . Repeat Insts
-    (10) Insts -> .
-    (18) AttrInt -> . id num
-    (19) AttrInt -> . id = num
-    (13) Print -> . print ( id )
-    (14) Println -> . println ( id )
-    (11) Repeat -> . RepeatS ( num ) { Insts }
-    (12) RepeatS -> . repeat
+    (10) Insts -> . Read Insts
+    (11) Insts -> .
+    (20) AttrInt -> . id num
+    (21) AttrInt -> . id = Exp
+    (15) Print -> . print ( Exp )
+    (16) Println -> . println ( Exp )
+    (12) Repeat -> . RepeatS ( num ) { Insts }
+    (14) Read -> . read ( id )
+    (13) RepeatS -> . repeat
 
-    }               reduce using rule 10 (Insts -> .)
-    id              shift and go to state 16
-    print           shift and go to state 17
-    println         shift and go to state 18
-    repeat          shift and go to state 20
+    }               reduce using rule 11 (Insts -> .)
+    id              shift and go to state 17
+    print           shift and go to state 18
+    println         shift and go to state 19
+    read            shift and go to state 21
+    repeat          shift and go to state 22
 
-    RepeatS                        shift and go to state 19
-    Insts                          shift and go to state 45
+    RepeatS                        shift and go to state 20
+    Insts                          shift and go to state 66
     AttrInt                        shift and go to state 12
     Print                          shift and go to state 13
     Println                        shift and go to state 14
     Repeat                         shift and go to state 15
+    Read                           shift and go to state 16
 
-state 45
+state 66
 
-    (11) Repeat -> RepeatS ( num ) { Insts . }
+    (12) Repeat -> RepeatS ( num ) { Insts . }
 
-    }               shift and go to state 46
+    }               shift and go to state 67
 
 
-state 46
+state 67
 
-    (11) Repeat -> RepeatS ( num ) { Insts } .
+    (12) Repeat -> RepeatS ( num ) { Insts } .
 
-    id              reduce using rule 11 (Repeat -> RepeatS ( num ) { Insts } .)
-    print           reduce using rule 11 (Repeat -> RepeatS ( num ) { Insts } .)
-    println         reduce using rule 11 (Repeat -> RepeatS ( num ) { Insts } .)
-    repeat          reduce using rule 11 (Repeat -> RepeatS ( num ) { Insts } .)
-    }               reduce using rule 11 (Repeat -> RepeatS ( num ) { Insts } .)
+    id              reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
+    print           reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
+    println         reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
+    read            reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
+    repeat          reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
+    }               reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
 
