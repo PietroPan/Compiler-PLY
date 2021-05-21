@@ -441,6 +441,10 @@ def p_Term_div(p):
     "Term : Term '/' Factor"
     p[0] = p[1]+p[3]+"div\n"
 
+def p_Term_mod(p):
+    "Term : Term '%' Factor"
+    p[0] = p[1]+p[3]+"mod\n"
+
 def p_Term_factor(p):
     "Term : Factor"
     p[0] = p[1]
