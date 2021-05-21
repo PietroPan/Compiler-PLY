@@ -1,0 +1,6 @@
+vars {
+    int a=2
+}
+main {
+    println((a==1||a>2||a==2&&a>1))
+}

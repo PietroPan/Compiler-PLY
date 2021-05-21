@@ -1,0 +1,28 @@
+vars {
+    int i
+    int j
+    int a[3][5]
+}
+
+main {
+    repeat(3){
+        repeat(5){
+            a[i][j]=i*5+j
+            j=j+1
+        }
+        j=0
+        i=i+1
+    }
+    i=0
+    j=0
+
+    repeat(3){
+        repeat(5){
+            print(a[i][j])
+            j=j+1
+        }
+        j=0
+        println(0)
+        i=i+1
+    }
+}

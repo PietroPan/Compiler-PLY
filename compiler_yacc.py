@@ -54,9 +54,19 @@ from compiler_lex import tokens
 #
 # Factor -> id
 #         | num
+#         | Cond
 #         | '(' Exp ')'
 #         | "id '[' Exp ']'"
 #         | "id '[' Exp ']' '[' Exp ']'"
+#
+# Cond -> Exp sup Exp
+#       | Exp inf Exp
+#       | Exp supeq Exp
+#       | Exp infeq Exp
+#       | not Exp
+#       | Exp eq Exp
+#       | Exp diff Exp
+
 
 def p_Prog(p):
     "Prog : VarBlc MainBlc"
@@ -168,6 +178,7 @@ def p_Attr(p):
     out.write(p[3])
     out.write("storeg "+str(p.parser.table[p[1]])+"\n")
 
+
 def p_Attr_arr(p):
     "Attr : id '[' Exp ']' '=' Exp"
     out.write("pushgp\n")
@@ -224,6 +235,10 @@ def p_Factor_num(p):
     "Factor : num"
     p[0] = "pushi "+str(p[1])+"\n"
 
+def p_Factor_cond(p):
+    "Factor : '(' Cond ')'"
+    p[0] = p[2]
+
 
 def p_Factor_arr(p):
     "Factor : id '[' Exp ']'"
@@ -237,6 +252,50 @@ def p_Factor_arr_2d(p):
 def p_Factor_group(p):
     "Factor : '(' Exp ')'"
     p[0] = p[2]
+
+def p_Cond_and(p):
+    "Cond : Cond and Cond"
+    p[0] = p[1]+p[3]+"mul\n"
+
+def p_Cond_or(p):
+    "Cond : Cond or Cond"
+    p[0] = p[1]+p[3]+"add\n"+p[1]+p[3]+"mul\n"+"sub\n"
+
+#def p_Cond_and_par(p):
+#    "Cond : '(' Cond and Cond ')'"
+#    p[0] = p[2]+p[4]+"mul\n"
+
+#def p_Cond_or_par(p):
+#    "Cond : '(' Cond or Cond ')' "
+#    p[0] = p[2]+p[4]+"add\n"+p[2]+p[4]+"mul\n"+"sub\n"
+
+def p_Cond_sup(p):
+    "Cond : Exp sup Exp"
+    p[0] = p[1]+p[3]+"sup\n"
+
+def p_Cond_inf(p):
+    "Cond : Exp inf Exp"
+    p[0] = p[1]+p[3]+"inf\n"
+
+def p_Cond_supeq(p):
+    "Cond : Exp supeq Exp"
+    p[0] = p[1]+p[3]+"supeq\n"
+
+def p_Cond_infeq(p):
+    "Cond : Exp infeq Exp"
+    p[0] = p[1]+p[3]+"infeq\n"
+
+def p_Cond_not(p):
+    "Cond : not Exp"
+    p[0] = p[2]+"not\n"
+
+def p_Cond_eq(p):
+    "Cond : Exp eq Exp"
+    p[0] = p[1]+p[3]+"equal\n"
+
+def p_Cond_diff(p):
+    "Cond : Exp diff Exp"
+    p[0] = p[1]+p[3]+"equal\n"+"not\n"
 
 
 def p_error(p):

@@ -1,0 +1,62 @@
+pushi 2
+pushn 10
+start
+pushg 0
+pushi 1
+equal
+pushg 0
+pushi 2
+sup
+pushg 0
+pushi 2
+equal
+pushg 0
+pushi 1
+sup
+mul
+add
+pushg 0
+pushi 2
+sup
+pushg 0
+pushi 2
+equal
+pushg 0
+pushi 1
+sup
+mul
+mul
+sub
+add
+pushg 0
+pushi 1
+equal
+pushg 0
+pushi 2
+sup
+pushg 0
+pushi 2
+equal
+pushg 0
+pushi 1
+sup
+mul
+add
+pushg 0
+pushi 2
+sup
+pushg 0
+pushi 2
+equal
+pushg 0
+pushi 1
+sup
+mul
+mul
+sub
+mul
+sub
+writei
+pushs "\n"
+writes
+stop

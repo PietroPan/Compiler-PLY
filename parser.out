@@ -34,30 +34,49 @@ Rule 28    Term -> Term / Factor
 Rule 29    Term -> Factor
 Rule 30    Factor -> id
 Rule 31    Factor -> num
-Rule 32    Factor -> id [ Exp ]
-Rule 33    Factor -> id [ Exp ] [ Exp ]
-Rule 34    Factor -> ( Exp )
+Rule 32    Factor -> ( Cond )
+Rule 33    Factor -> id [ Exp ]
+Rule 34    Factor -> id [ Exp ] [ Exp ]
+Rule 35    Factor -> ( Exp )
+Rule 36    Cond -> Cond and Cond
+Rule 37    Cond -> Cond or Cond
+Rule 38    Cond -> Exp sup Exp
+Rule 39    Cond -> Exp inf Exp
+Rule 40    Cond -> Exp supeq Exp
+Rule 41    Cond -> Exp infeq Exp
+Rule 42    Cond -> not Exp
+Rule 43    Cond -> Exp eq Exp
+Rule 44    Cond -> Exp diff Exp
 
 Terminals, with rules where they appear
 
-(                    : 12 14 15 16 34
-)                    : 12 14 15 16 34
+(                    : 12 14 15 16 32 35
+)                    : 12 14 15 16 32 35
 *                    : 27
 +                    : 24
 -                    : 25
 /                    : 28
 =                    : 20 21 22 23
-[                    : 17 18 18 22 23 23 32 33 33
-]                    : 17 18 18 22 23 23 32 33 33
+[                    : 17 18 18 22 23 23 33 34 34
+]                    : 17 18 18 22 23 23 33 34 34
+and                  : 36
+diff                 : 44
+eq                   : 43
 error                : 
-id                   : 14 17 18 19 20 21 22 23 30 32 33
+id                   : 14 17 18 19 20 21 22 23 30 33 34
+inf                  : 39
+infeq                : 41
 int                  : 17 18 19 20
 main                 : 5
+not                  : 42
 num                  : 12 17 18 18 20 31
+or                   : 37
 print                : 15
 println              : 16
 read                 : 14
 repeat               : 13
+sup                  : 38
+supeq                : 40
 vars                 : 2
 {                    : 2 5 12
 }                    : 2 5 12
@@ -65,9 +84,10 @@ vars                 : 2
 Nonterminals, with rules where they appear
 
 Attr                 : 6
+Cond                 : 32 36 36 37 37
 Dcl                  : 3
 Dcls                 : 2 3
-Exp                  : 15 16 21 22 22 23 23 23 24 25 32 33 33 34
+Exp                  : 15 16 21 22 22 23 23 23 24 25 33 34 34 35 38 38 39 39 40 40 41 41 42 43 43 44 44
 Factor               : 27 28 29
 Insts                : 5 6 7 8 9 10 12
 MainBlc              : 1
@@ -508,9 +528,10 @@ state 32
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
@@ -532,9 +553,10 @@ state 33
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
@@ -555,9 +577,10 @@ state 34
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
@@ -578,9 +601,10 @@ state 35
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
@@ -622,8 +646,8 @@ state 39
 state 40
 
     (30) Factor -> id .
-    (32) Factor -> id . [ Exp ]
-    (33) Factor -> id . [ Exp ] [ Exp ]
+    (33) Factor -> id . [ Exp ]
+    (34) Factor -> id . [ Exp ] [ Exp ]
 
     *               reduce using rule 30 (Factor -> id .)
     /               reduce using rule 30 (Factor -> id .)
@@ -637,6 +661,14 @@ state 40
     }               reduce using rule 30 (Factor -> id .)
     ]               reduce using rule 30 (Factor -> id .)
     )               reduce using rule 30 (Factor -> id .)
+    sup             reduce using rule 30 (Factor -> id .)
+    inf             reduce using rule 30 (Factor -> id .)
+    supeq           reduce using rule 30 (Factor -> id .)
+    infeq           reduce using rule 30 (Factor -> id .)
+    eq              reduce using rule 30 (Factor -> id .)
+    diff            reduce using rule 30 (Factor -> id .)
+    and             reduce using rule 30 (Factor -> id .)
+    or              reduce using rule 30 (Factor -> id .)
     [               shift and go to state 53
 
 
@@ -672,6 +704,14 @@ state 42
     }               reduce using rule 26 (Exp -> Term .)
     ]               reduce using rule 26 (Exp -> Term .)
     )               reduce using rule 26 (Exp -> Term .)
+    sup             reduce using rule 26 (Exp -> Term .)
+    inf             reduce using rule 26 (Exp -> Term .)
+    supeq           reduce using rule 26 (Exp -> Term .)
+    infeq           reduce using rule 26 (Exp -> Term .)
+    eq              reduce using rule 26 (Exp -> Term .)
+    diff            reduce using rule 26 (Exp -> Term .)
+    and             reduce using rule 26 (Exp -> Term .)
+    or              reduce using rule 26 (Exp -> Term .)
     *               shift and go to state 56
     /               shift and go to state 57
 
@@ -692,6 +732,14 @@ state 43
     }               reduce using rule 29 (Term -> Factor .)
     ]               reduce using rule 29 (Term -> Factor .)
     )               reduce using rule 29 (Term -> Factor .)
+    sup             reduce using rule 29 (Term -> Factor .)
+    inf             reduce using rule 29 (Term -> Factor .)
+    supeq           reduce using rule 29 (Term -> Factor .)
+    infeq           reduce using rule 29 (Term -> Factor .)
+    eq              reduce using rule 29 (Term -> Factor .)
+    diff            reduce using rule 29 (Term -> Factor .)
+    and             reduce using rule 29 (Term -> Factor .)
+    or              reduce using rule 29 (Term -> Factor .)
 
 
 state 44
@@ -710,11 +758,29 @@ state 44
     }               reduce using rule 31 (Factor -> num .)
     ]               reduce using rule 31 (Factor -> num .)
     )               reduce using rule 31 (Factor -> num .)
+    sup             reduce using rule 31 (Factor -> num .)
+    inf             reduce using rule 31 (Factor -> num .)
+    supeq           reduce using rule 31 (Factor -> num .)
+    infeq           reduce using rule 31 (Factor -> num .)
+    eq              reduce using rule 31 (Factor -> num .)
+    diff            reduce using rule 31 (Factor -> num .)
+    and             reduce using rule 31 (Factor -> num .)
+    or              reduce using rule 31 (Factor -> num .)
 
 
 state 45
 
-    (34) Factor -> ( . Exp )
+    (32) Factor -> ( . Cond )
+    (35) Factor -> ( . Exp )
+    (36) Cond -> . Cond and Cond
+    (37) Cond -> . Cond or Cond
+    (38) Cond -> . Exp sup Exp
+    (39) Cond -> . Exp inf Exp
+    (40) Cond -> . Exp supeq Exp
+    (41) Cond -> . Exp infeq Exp
+    (42) Cond -> . not Exp
+    (43) Cond -> . Exp eq Exp
+    (44) Cond -> . Exp diff Exp
     (24) Exp -> . Exp + Term
     (25) Exp -> . Exp - Term
     (26) Exp -> . Term
@@ -723,15 +789,18 @@ state 45
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
+    not             shift and go to state 60
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Exp                            shift and go to state 58
+    Cond                           shift and go to state 58
+    Exp                            shift and go to state 59
     Term                           shift and go to state 42
     Factor                         shift and go to state 43
 
@@ -742,7 +811,7 @@ state 46
     (24) Exp -> Exp . + Term
     (25) Exp -> Exp . - Term
 
-    ]               shift and go to state 59
+    ]               shift and go to state 61
     +               shift and go to state 54
     -               shift and go to state 55
 
@@ -753,7 +822,7 @@ state 47
     (24) Exp -> Exp . + Term
     (25) Exp -> Exp . - Term
 
-    )               shift and go to state 60
+    )               shift and go to state 62
     +               shift and go to state 54
     -               shift and go to state 55
 
@@ -764,7 +833,7 @@ state 48
     (24) Exp -> Exp . + Term
     (25) Exp -> Exp . - Term
 
-    )               shift and go to state 61
+    )               shift and go to state 63
     +               shift and go to state 54
     -               shift and go to state 55
 
@@ -773,14 +842,14 @@ state 49
 
     (12) Repeat -> RepeatS ( num . ) { Insts }
 
-    )               shift and go to state 62
+    )               shift and go to state 64
 
 
 state 50
 
     (14) Read -> read ( id . )
 
-    )               shift and go to state 63
+    )               shift and go to state 65
 
 
 state 51
@@ -788,7 +857,7 @@ state 51
     (17) Dcl -> int id [ num . ]
     (18) Dcl -> int id [ num . ] [ num ]
 
-    ]               shift and go to state 64
+    ]               shift and go to state 66
 
 
 state 52
@@ -801,8 +870,8 @@ state 52
 
 state 53
 
-    (32) Factor -> id [ . Exp ]
-    (33) Factor -> id [ . Exp ] [ Exp ]
+    (33) Factor -> id [ . Exp ]
+    (34) Factor -> id [ . Exp ] [ Exp ]
     (24) Exp -> . Exp + Term
     (25) Exp -> . Exp - Term
     (26) Exp -> . Term
@@ -811,15 +880,16 @@ state 53
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Exp                            shift and go to state 65
+    Exp                            shift and go to state 67
     Term                           shift and go to state 42
     Factor                         shift and go to state 43
 
@@ -831,15 +901,16 @@ state 54
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Term                           shift and go to state 66
+    Term                           shift and go to state 68
     Factor                         shift and go to state 43
 
 state 55
@@ -850,15 +921,16 @@ state 55
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Term                           shift and go to state 67
+    Term                           shift and go to state 69
     Factor                         shift and go to state 43
 
 state 56
@@ -866,52 +938,101 @@ state 56
     (27) Term -> Term * . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Factor                         shift and go to state 68
+    Factor                         shift and go to state 70
 
 state 57
 
     (28) Term -> Term / . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Factor                         shift and go to state 69
+    Factor                         shift and go to state 71
 
 state 58
 
-    (34) Factor -> ( Exp . )
-    (24) Exp -> Exp . + Term
-    (25) Exp -> Exp . - Term
+    (32) Factor -> ( Cond . )
+    (36) Cond -> Cond . and Cond
+    (37) Cond -> Cond . or Cond
 
-    )               shift and go to state 70
-    +               shift and go to state 54
-    -               shift and go to state 55
+    )               shift and go to state 72
+    and             shift and go to state 73
+    or              shift and go to state 74
 
 
 state 59
 
-    (22) Attr -> id [ Exp ] . = Exp
-    (23) Attr -> id [ Exp ] . [ Exp ] = Exp
+    (35) Factor -> ( Exp . )
+    (38) Cond -> Exp . sup Exp
+    (39) Cond -> Exp . inf Exp
+    (40) Cond -> Exp . supeq Exp
+    (41) Cond -> Exp . infeq Exp
+    (43) Cond -> Exp . eq Exp
+    (44) Cond -> Exp . diff Exp
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
 
-    =               shift and go to state 72
-    [               shift and go to state 71
+    )               shift and go to state 75
+    sup             shift and go to state 76
+    inf             shift and go to state 77
+    supeq           shift and go to state 78
+    infeq           shift and go to state 79
+    eq              shift and go to state 80
+    diff            shift and go to state 81
+    +               shift and go to state 54
+    -               shift and go to state 55
 
 
 state 60
+
+    (42) Cond -> not . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 82
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 61
+
+    (22) Attr -> id [ Exp ] . = Exp
+    (23) Attr -> id [ Exp ] . [ Exp ] = Exp
+
+    =               shift and go to state 84
+    [               shift and go to state 83
+
+
+state 62
 
     (15) Print -> print ( Exp ) .
 
@@ -923,7 +1044,7 @@ state 60
     }               reduce using rule 15 (Print -> print ( Exp ) .)
 
 
-state 61
+state 63
 
     (16) Println -> println ( Exp ) .
 
@@ -935,14 +1056,14 @@ state 61
     }               reduce using rule 16 (Println -> println ( Exp ) .)
 
 
-state 62
+state 64
 
     (12) Repeat -> RepeatS ( num ) . { Insts }
 
-    {               shift and go to state 73
+    {               shift and go to state 85
 
 
-state 63
+state 65
 
     (14) Read -> read ( id ) .
 
@@ -954,29 +1075,29 @@ state 63
     }               reduce using rule 14 (Read -> read ( id ) .)
 
 
-state 64
+state 66
 
     (17) Dcl -> int id [ num ] .
     (18) Dcl -> int id [ num ] . [ num ]
 
     int             reduce using rule 17 (Dcl -> int id [ num ] .)
     }               reduce using rule 17 (Dcl -> int id [ num ] .)
-    [               shift and go to state 74
+    [               shift and go to state 86
 
 
-state 65
+state 67
 
-    (32) Factor -> id [ Exp . ]
-    (33) Factor -> id [ Exp . ] [ Exp ]
+    (33) Factor -> id [ Exp . ]
+    (34) Factor -> id [ Exp . ] [ Exp ]
     (24) Exp -> Exp . + Term
     (25) Exp -> Exp . - Term
 
-    ]               shift and go to state 75
+    ]               shift and go to state 87
     +               shift and go to state 54
     -               shift and go to state 55
 
 
-state 66
+state 68
 
     (24) Exp -> Exp + Term .
     (27) Term -> Term . * Factor
@@ -992,11 +1113,19 @@ state 66
     }               reduce using rule 24 (Exp -> Exp + Term .)
     ]               reduce using rule 24 (Exp -> Exp + Term .)
     )               reduce using rule 24 (Exp -> Exp + Term .)
+    sup             reduce using rule 24 (Exp -> Exp + Term .)
+    inf             reduce using rule 24 (Exp -> Exp + Term .)
+    supeq           reduce using rule 24 (Exp -> Exp + Term .)
+    infeq           reduce using rule 24 (Exp -> Exp + Term .)
+    eq              reduce using rule 24 (Exp -> Exp + Term .)
+    diff            reduce using rule 24 (Exp -> Exp + Term .)
+    and             reduce using rule 24 (Exp -> Exp + Term .)
+    or              reduce using rule 24 (Exp -> Exp + Term .)
     *               shift and go to state 56
     /               shift and go to state 57
 
 
-state 67
+state 69
 
     (25) Exp -> Exp - Term .
     (27) Term -> Term . * Factor
@@ -1012,11 +1141,19 @@ state 67
     }               reduce using rule 25 (Exp -> Exp - Term .)
     ]               reduce using rule 25 (Exp -> Exp - Term .)
     )               reduce using rule 25 (Exp -> Exp - Term .)
+    sup             reduce using rule 25 (Exp -> Exp - Term .)
+    inf             reduce using rule 25 (Exp -> Exp - Term .)
+    supeq           reduce using rule 25 (Exp -> Exp - Term .)
+    infeq           reduce using rule 25 (Exp -> Exp - Term .)
+    eq              reduce using rule 25 (Exp -> Exp - Term .)
+    diff            reduce using rule 25 (Exp -> Exp - Term .)
+    and             reduce using rule 25 (Exp -> Exp - Term .)
+    or              reduce using rule 25 (Exp -> Exp - Term .)
     *               shift and go to state 56
     /               shift and go to state 57
 
 
-state 68
+state 70
 
     (27) Term -> Term * Factor .
 
@@ -1032,9 +1169,17 @@ state 68
     }               reduce using rule 27 (Term -> Term * Factor .)
     ]               reduce using rule 27 (Term -> Term * Factor .)
     )               reduce using rule 27 (Term -> Term * Factor .)
+    sup             reduce using rule 27 (Term -> Term * Factor .)
+    inf             reduce using rule 27 (Term -> Term * Factor .)
+    supeq           reduce using rule 27 (Term -> Term * Factor .)
+    infeq           reduce using rule 27 (Term -> Term * Factor .)
+    eq              reduce using rule 27 (Term -> Term * Factor .)
+    diff            reduce using rule 27 (Term -> Term * Factor .)
+    and             reduce using rule 27 (Term -> Term * Factor .)
+    or              reduce using rule 27 (Term -> Term * Factor .)
 
 
-state 69
+state 71
 
     (28) Term -> Term / Factor .
 
@@ -1050,27 +1195,296 @@ state 69
     }               reduce using rule 28 (Term -> Term / Factor .)
     ]               reduce using rule 28 (Term -> Term / Factor .)
     )               reduce using rule 28 (Term -> Term / Factor .)
+    sup             reduce using rule 28 (Term -> Term / Factor .)
+    inf             reduce using rule 28 (Term -> Term / Factor .)
+    supeq           reduce using rule 28 (Term -> Term / Factor .)
+    infeq           reduce using rule 28 (Term -> Term / Factor .)
+    eq              reduce using rule 28 (Term -> Term / Factor .)
+    diff            reduce using rule 28 (Term -> Term / Factor .)
+    and             reduce using rule 28 (Term -> Term / Factor .)
+    or              reduce using rule 28 (Term -> Term / Factor .)
 
 
-state 70
+state 72
 
-    (34) Factor -> ( Exp ) .
+    (32) Factor -> ( Cond ) .
 
-    *               reduce using rule 34 (Factor -> ( Exp ) .)
-    /               reduce using rule 34 (Factor -> ( Exp ) .)
-    +               reduce using rule 34 (Factor -> ( Exp ) .)
-    -               reduce using rule 34 (Factor -> ( Exp ) .)
-    id              reduce using rule 34 (Factor -> ( Exp ) .)
-    print           reduce using rule 34 (Factor -> ( Exp ) .)
-    println         reduce using rule 34 (Factor -> ( Exp ) .)
-    read            reduce using rule 34 (Factor -> ( Exp ) .)
-    repeat          reduce using rule 34 (Factor -> ( Exp ) .)
-    }               reduce using rule 34 (Factor -> ( Exp ) .)
-    ]               reduce using rule 34 (Factor -> ( Exp ) .)
-    )               reduce using rule 34 (Factor -> ( Exp ) .)
+    *               reduce using rule 32 (Factor -> ( Cond ) .)
+    /               reduce using rule 32 (Factor -> ( Cond ) .)
+    +               reduce using rule 32 (Factor -> ( Cond ) .)
+    -               reduce using rule 32 (Factor -> ( Cond ) .)
+    id              reduce using rule 32 (Factor -> ( Cond ) .)
+    print           reduce using rule 32 (Factor -> ( Cond ) .)
+    println         reduce using rule 32 (Factor -> ( Cond ) .)
+    read            reduce using rule 32 (Factor -> ( Cond ) .)
+    repeat          reduce using rule 32 (Factor -> ( Cond ) .)
+    }               reduce using rule 32 (Factor -> ( Cond ) .)
+    ]               reduce using rule 32 (Factor -> ( Cond ) .)
+    )               reduce using rule 32 (Factor -> ( Cond ) .)
+    sup             reduce using rule 32 (Factor -> ( Cond ) .)
+    inf             reduce using rule 32 (Factor -> ( Cond ) .)
+    supeq           reduce using rule 32 (Factor -> ( Cond ) .)
+    infeq           reduce using rule 32 (Factor -> ( Cond ) .)
+    eq              reduce using rule 32 (Factor -> ( Cond ) .)
+    diff            reduce using rule 32 (Factor -> ( Cond ) .)
+    and             reduce using rule 32 (Factor -> ( Cond ) .)
+    or              reduce using rule 32 (Factor -> ( Cond ) .)
 
 
-state 71
+state 73
+
+    (36) Cond -> Cond and . Cond
+    (36) Cond -> . Cond and Cond
+    (37) Cond -> . Cond or Cond
+    (38) Cond -> . Exp sup Exp
+    (39) Cond -> . Exp inf Exp
+    (40) Cond -> . Exp supeq Exp
+    (41) Cond -> . Exp infeq Exp
+    (42) Cond -> . not Exp
+    (43) Cond -> . Exp eq Exp
+    (44) Cond -> . Exp diff Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    not             shift and go to state 60
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Cond                           shift and go to state 88
+    Exp                            shift and go to state 89
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 74
+
+    (37) Cond -> Cond or . Cond
+    (36) Cond -> . Cond and Cond
+    (37) Cond -> . Cond or Cond
+    (38) Cond -> . Exp sup Exp
+    (39) Cond -> . Exp inf Exp
+    (40) Cond -> . Exp supeq Exp
+    (41) Cond -> . Exp infeq Exp
+    (42) Cond -> . not Exp
+    (43) Cond -> . Exp eq Exp
+    (44) Cond -> . Exp diff Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    not             shift and go to state 60
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Cond                           shift and go to state 90
+    Exp                            shift and go to state 89
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 75
+
+    (35) Factor -> ( Exp ) .
+
+    *               reduce using rule 35 (Factor -> ( Exp ) .)
+    /               reduce using rule 35 (Factor -> ( Exp ) .)
+    +               reduce using rule 35 (Factor -> ( Exp ) .)
+    -               reduce using rule 35 (Factor -> ( Exp ) .)
+    id              reduce using rule 35 (Factor -> ( Exp ) .)
+    print           reduce using rule 35 (Factor -> ( Exp ) .)
+    println         reduce using rule 35 (Factor -> ( Exp ) .)
+    read            reduce using rule 35 (Factor -> ( Exp ) .)
+    repeat          reduce using rule 35 (Factor -> ( Exp ) .)
+    }               reduce using rule 35 (Factor -> ( Exp ) .)
+    ]               reduce using rule 35 (Factor -> ( Exp ) .)
+    )               reduce using rule 35 (Factor -> ( Exp ) .)
+    sup             reduce using rule 35 (Factor -> ( Exp ) .)
+    inf             reduce using rule 35 (Factor -> ( Exp ) .)
+    supeq           reduce using rule 35 (Factor -> ( Exp ) .)
+    infeq           reduce using rule 35 (Factor -> ( Exp ) .)
+    eq              reduce using rule 35 (Factor -> ( Exp ) .)
+    diff            reduce using rule 35 (Factor -> ( Exp ) .)
+    and             reduce using rule 35 (Factor -> ( Exp ) .)
+    or              reduce using rule 35 (Factor -> ( Exp ) .)
+
+
+state 76
+
+    (38) Cond -> Exp sup . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 91
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 77
+
+    (39) Cond -> Exp inf . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 92
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 78
+
+    (40) Cond -> Exp supeq . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 93
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 79
+
+    (41) Cond -> Exp infeq . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 94
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 80
+
+    (43) Cond -> Exp eq . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 95
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 81
+
+    (44) Cond -> Exp diff . Exp
+    (24) Exp -> . Exp + Term
+    (25) Exp -> . Exp - Term
+    (26) Exp -> . Term
+    (27) Term -> . Term * Factor
+    (28) Term -> . Term / Factor
+    (29) Term -> . Factor
+    (30) Factor -> . id
+    (31) Factor -> . num
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
+
+    id              shift and go to state 40
+    num             shift and go to state 44
+    (               shift and go to state 45
+
+    Exp                            shift and go to state 96
+    Term                           shift and go to state 42
+    Factor                         shift and go to state 43
+
+state 82
+
+    (42) Cond -> not Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 42 (Cond -> not Exp .)
+    and             reduce using rule 42 (Cond -> not Exp .)
+    or              reduce using rule 42 (Cond -> not Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 83
 
     (23) Attr -> id [ Exp ] [ . Exp ] = Exp
     (24) Exp -> . Exp + Term
@@ -1081,19 +1495,20 @@ state 71
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Exp                            shift and go to state 76
+    Exp                            shift and go to state 97
     Term                           shift and go to state 42
     Factor                         shift and go to state 43
 
-state 72
+state 84
 
     (22) Attr -> id [ Exp ] = . Exp
     (24) Exp -> . Exp + Term
@@ -1104,19 +1519,20 @@ state 72
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Exp                            shift and go to state 77
+    Exp                            shift and go to state 98
     Term                           shift and go to state 42
     Factor                         shift and go to state 43
 
-state 73
+state 85
 
     (12) Repeat -> RepeatS ( num ) { . Insts }
     (6) Insts -> . Attr Insts
@@ -1142,52 +1558,191 @@ state 73
     repeat          shift and go to state 22
 
     RepeatS                        shift and go to state 20
-    Insts                          shift and go to state 78
+    Insts                          shift and go to state 99
     Attr                           shift and go to state 12
     Print                          shift and go to state 13
     Println                        shift and go to state 14
     Repeat                         shift and go to state 15
     Read                           shift and go to state 16
 
-state 74
+state 86
 
     (18) Dcl -> int id [ num ] [ . num ]
 
-    num             shift and go to state 79
+    num             shift and go to state 100
 
 
-state 75
+state 87
 
-    (32) Factor -> id [ Exp ] .
-    (33) Factor -> id [ Exp ] . [ Exp ]
+    (33) Factor -> id [ Exp ] .
+    (34) Factor -> id [ Exp ] . [ Exp ]
 
-    *               reduce using rule 32 (Factor -> id [ Exp ] .)
-    /               reduce using rule 32 (Factor -> id [ Exp ] .)
-    +               reduce using rule 32 (Factor -> id [ Exp ] .)
-    -               reduce using rule 32 (Factor -> id [ Exp ] .)
-    id              reduce using rule 32 (Factor -> id [ Exp ] .)
-    print           reduce using rule 32 (Factor -> id [ Exp ] .)
-    println         reduce using rule 32 (Factor -> id [ Exp ] .)
-    read            reduce using rule 32 (Factor -> id [ Exp ] .)
-    repeat          reduce using rule 32 (Factor -> id [ Exp ] .)
-    }               reduce using rule 32 (Factor -> id [ Exp ] .)
-    ]               reduce using rule 32 (Factor -> id [ Exp ] .)
-    )               reduce using rule 32 (Factor -> id [ Exp ] .)
-    [               shift and go to state 80
+    *               reduce using rule 33 (Factor -> id [ Exp ] .)
+    /               reduce using rule 33 (Factor -> id [ Exp ] .)
+    +               reduce using rule 33 (Factor -> id [ Exp ] .)
+    -               reduce using rule 33 (Factor -> id [ Exp ] .)
+    id              reduce using rule 33 (Factor -> id [ Exp ] .)
+    print           reduce using rule 33 (Factor -> id [ Exp ] .)
+    println         reduce using rule 33 (Factor -> id [ Exp ] .)
+    read            reduce using rule 33 (Factor -> id [ Exp ] .)
+    repeat          reduce using rule 33 (Factor -> id [ Exp ] .)
+    }               reduce using rule 33 (Factor -> id [ Exp ] .)
+    ]               reduce using rule 33 (Factor -> id [ Exp ] .)
+    )               reduce using rule 33 (Factor -> id [ Exp ] .)
+    sup             reduce using rule 33 (Factor -> id [ Exp ] .)
+    inf             reduce using rule 33 (Factor -> id [ Exp ] .)
+    supeq           reduce using rule 33 (Factor -> id [ Exp ] .)
+    infeq           reduce using rule 33 (Factor -> id [ Exp ] .)
+    eq              reduce using rule 33 (Factor -> id [ Exp ] .)
+    diff            reduce using rule 33 (Factor -> id [ Exp ] .)
+    and             reduce using rule 33 (Factor -> id [ Exp ] .)
+    or              reduce using rule 33 (Factor -> id [ Exp ] .)
+    [               shift and go to state 101
 
 
-state 76
+state 88
+
+    (36) Cond -> Cond and Cond .
+    (36) Cond -> Cond . and Cond
+    (37) Cond -> Cond . or Cond
+
+  ! shift/reduce conflict for and resolved as shift
+  ! shift/reduce conflict for or resolved as shift
+    )               reduce using rule 36 (Cond -> Cond and Cond .)
+    and             shift and go to state 73
+    or              shift and go to state 74
+
+  ! and             [ reduce using rule 36 (Cond -> Cond and Cond .) ]
+  ! or              [ reduce using rule 36 (Cond -> Cond and Cond .) ]
+
+
+state 89
+
+    (38) Cond -> Exp . sup Exp
+    (39) Cond -> Exp . inf Exp
+    (40) Cond -> Exp . supeq Exp
+    (41) Cond -> Exp . infeq Exp
+    (43) Cond -> Exp . eq Exp
+    (44) Cond -> Exp . diff Exp
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    sup             shift and go to state 76
+    inf             shift and go to state 77
+    supeq           shift and go to state 78
+    infeq           shift and go to state 79
+    eq              shift and go to state 80
+    diff            shift and go to state 81
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 90
+
+    (37) Cond -> Cond or Cond .
+    (36) Cond -> Cond . and Cond
+    (37) Cond -> Cond . or Cond
+
+  ! shift/reduce conflict for and resolved as shift
+  ! shift/reduce conflict for or resolved as shift
+    )               reduce using rule 37 (Cond -> Cond or Cond .)
+    and             shift and go to state 73
+    or              shift and go to state 74
+
+  ! and             [ reduce using rule 37 (Cond -> Cond or Cond .) ]
+  ! or              [ reduce using rule 37 (Cond -> Cond or Cond .) ]
+
+
+state 91
+
+    (38) Cond -> Exp sup Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 38 (Cond -> Exp sup Exp .)
+    and             reduce using rule 38 (Cond -> Exp sup Exp .)
+    or              reduce using rule 38 (Cond -> Exp sup Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 92
+
+    (39) Cond -> Exp inf Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 39 (Cond -> Exp inf Exp .)
+    and             reduce using rule 39 (Cond -> Exp inf Exp .)
+    or              reduce using rule 39 (Cond -> Exp inf Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 93
+
+    (40) Cond -> Exp supeq Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 40 (Cond -> Exp supeq Exp .)
+    and             reduce using rule 40 (Cond -> Exp supeq Exp .)
+    or              reduce using rule 40 (Cond -> Exp supeq Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 94
+
+    (41) Cond -> Exp infeq Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 41 (Cond -> Exp infeq Exp .)
+    and             reduce using rule 41 (Cond -> Exp infeq Exp .)
+    or              reduce using rule 41 (Cond -> Exp infeq Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 95
+
+    (43) Cond -> Exp eq Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 43 (Cond -> Exp eq Exp .)
+    and             reduce using rule 43 (Cond -> Exp eq Exp .)
+    or              reduce using rule 43 (Cond -> Exp eq Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 96
+
+    (44) Cond -> Exp diff Exp .
+    (24) Exp -> Exp . + Term
+    (25) Exp -> Exp . - Term
+
+    )               reduce using rule 44 (Cond -> Exp diff Exp .)
+    and             reduce using rule 44 (Cond -> Exp diff Exp .)
+    or              reduce using rule 44 (Cond -> Exp diff Exp .)
+    +               shift and go to state 54
+    -               shift and go to state 55
+
+
+state 97
 
     (23) Attr -> id [ Exp ] [ Exp . ] = Exp
     (24) Exp -> Exp . + Term
     (25) Exp -> Exp . - Term
 
-    ]               shift and go to state 81
+    ]               shift and go to state 102
     +               shift and go to state 54
     -               shift and go to state 55
 
 
-state 77
+state 98
 
     (22) Attr -> id [ Exp ] = Exp .
     (24) Exp -> Exp . + Term
@@ -1203,23 +1758,23 @@ state 77
     -               shift and go to state 55
 
 
-state 78
+state 99
 
     (12) Repeat -> RepeatS ( num ) { Insts . }
 
-    }               shift and go to state 82
+    }               shift and go to state 103
 
 
-state 79
+state 100
 
     (18) Dcl -> int id [ num ] [ num . ]
 
-    ]               shift and go to state 83
+    ]               shift and go to state 104
 
 
-state 80
+state 101
 
-    (33) Factor -> id [ Exp ] [ . Exp ]
+    (34) Factor -> id [ Exp ] [ . Exp ]
     (24) Exp -> . Exp + Term
     (25) Exp -> . Exp - Term
     (26) Exp -> . Term
@@ -1228,26 +1783,27 @@ state 80
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Exp                            shift and go to state 84
+    Exp                            shift and go to state 105
     Term                           shift and go to state 42
     Factor                         shift and go to state 43
 
-state 81
+state 102
 
     (23) Attr -> id [ Exp ] [ Exp ] . = Exp
 
-    =               shift and go to state 85
+    =               shift and go to state 106
 
 
-state 82
+state 103
 
     (12) Repeat -> RepeatS ( num ) { Insts } .
 
@@ -1259,7 +1815,7 @@ state 82
     }               reduce using rule 12 (Repeat -> RepeatS ( num ) { Insts } .)
 
 
-state 83
+state 104
 
     (18) Dcl -> int id [ num ] [ num ] .
 
@@ -1267,18 +1823,18 @@ state 83
     }               reduce using rule 18 (Dcl -> int id [ num ] [ num ] .)
 
 
-state 84
+state 105
 
-    (33) Factor -> id [ Exp ] [ Exp . ]
+    (34) Factor -> id [ Exp ] [ Exp . ]
     (24) Exp -> Exp . + Term
     (25) Exp -> Exp . - Term
 
-    ]               shift and go to state 86
+    ]               shift and go to state 107
     +               shift and go to state 54
     -               shift and go to state 55
 
 
-state 85
+state 106
 
     (23) Attr -> id [ Exp ] [ Exp ] = . Exp
     (24) Exp -> . Exp + Term
@@ -1289,37 +1845,46 @@ state 85
     (29) Term -> . Factor
     (30) Factor -> . id
     (31) Factor -> . num
-    (32) Factor -> . id [ Exp ]
-    (33) Factor -> . id [ Exp ] [ Exp ]
-    (34) Factor -> . ( Exp )
+    (32) Factor -> . ( Cond )
+    (33) Factor -> . id [ Exp ]
+    (34) Factor -> . id [ Exp ] [ Exp ]
+    (35) Factor -> . ( Exp )
 
     id              shift and go to state 40
     num             shift and go to state 44
     (               shift and go to state 45
 
-    Exp                            shift and go to state 87
+    Exp                            shift and go to state 108
     Term                           shift and go to state 42
     Factor                         shift and go to state 43
 
-state 86
+state 107
 
-    (33) Factor -> id [ Exp ] [ Exp ] .
+    (34) Factor -> id [ Exp ] [ Exp ] .
 
-    *               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    /               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    +               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    -               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    id              reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    print           reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    println         reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    read            reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    repeat          reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    }               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    ]               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
-    )               reduce using rule 33 (Factor -> id [ Exp ] [ Exp ] .)
+    *               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    /               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    +               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    -               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    id              reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    print           reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    println         reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    read            reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    repeat          reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    }               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    ]               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    )               reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    sup             reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    inf             reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    supeq           reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    infeq           reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    eq              reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    diff            reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    and             reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
+    or              reduce using rule 34 (Factor -> id [ Exp ] [ Exp ] .)
 
 
-state 87
+state 108
 
     (23) Attr -> id [ Exp ] [ Exp ] = Exp .
     (24) Exp -> Exp . + Term
@@ -1334,3 +1899,10 @@ state 87
     +               shift and go to state 54
     -               shift and go to state 55
 
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for and in state 88 resolved as shift
+WARNING: shift/reduce conflict for or in state 88 resolved as shift
+WARNING: shift/reduce conflict for and in state 90 resolved as shift
+WARNING: shift/reduce conflict for or in state 90 resolved as shift

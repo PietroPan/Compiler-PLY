@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = "num id int print println vars main repeat readProg : VarBlc MainBlcVarBlc : vars '{' Dcls '}'Dcls : Dcl DclsDcls : MainBlc : main '{' Insts '}'Insts : Attr InstsInsts : Print InstsInsts : Println InstsInsts : Repeat InstsInsts : Read InstsInsts : Repeat : RepeatS '(' num ')' '{' Insts '}' RepeatS : repeatRead : read '(' id ')'Print : print '(' Exp ')'Println : println '(' Exp ')'Dcl : int id '[' num ']'Dcl : int id '[' num ']' '[' num ']'Dcl : int idDcl : int id '=' numAttr : id '=' ExpAttr : id '[' Exp ']' '=' ExpAttr : id '[' Exp ']' '[' Exp ']' '=' ExpExp : Exp '+' TermExp : Exp '-' TermExp : TermTerm : Term '*' FactorTerm : Term '/' FactorTerm : FactorFactor : idFactor : numFactor : id '[' Exp ']'Factor : id '[' Exp ']' '[' Exp ']'Factor : '(' Exp ')'"
+_lr_signature = "num id int print println vars main repeat read sup inf eq supeq infeq not diff and orProg : VarBlc MainBlcVarBlc : vars '{' Dcls '}'Dcls : Dcl DclsDcls : MainBlc : main '{' Insts '}'Insts : Attr InstsInsts : Print InstsInsts : Println InstsInsts : Repeat InstsInsts : Read InstsInsts : Repeat : RepeatS '(' num ')' '{' Insts '}' RepeatS : repeatRead : read '(' id ')'Print : print '(' Exp ')'Println : println '(' Exp ')'Dcl : int id '[' num ']'Dcl : int id '[' num ']' '[' num ']'Dcl : int idDcl : int id '=' numAttr : id '=' ExpAttr : id '[' Exp ']' '=' ExpAttr : id '[' Exp ']' '[' Exp ']' '=' ExpExp : Exp '+' TermExp : Exp '-' TermExp : TermTerm : Term '*' FactorTerm : Term '/' FactorTerm : FactorFactor : idFactor : numFactor : '(' Cond ')'Factor : id '[' Exp ']'Factor : id '[' Exp ']' '[' Exp ']'Factor : '(' Exp ')'Cond : Cond and CondCond : Cond or CondCond : Exp sup ExpCond : Exp inf ExpCond : Exp supeq ExpCond : Exp infeq ExpCond : not ExpCond : Exp eq ExpCond : Exp diff Exp"
     
-_lr_action_items = {'vars':([0,],[3,]),'$end':([1,4,26,],[0,-1,-5,]),'main':([2,23,],[5,-2,]),'{':([3,5,62,],[6,7,73,]),'}':([6,7,8,9,11,12,13,14,15,16,24,25,27,28,29,30,31,40,41,42,43,44,52,60,61,63,64,66,67,68,69,70,73,75,77,78,82,83,86,87,],[-4,-11,23,-4,26,-11,-11,-11,-11,-11,-3,-19,-6,-7,-8,-9,-10,-30,-21,-26,-29,-31,-20,-15,-16,-14,-17,-24,-25,-27,-28,-34,-11,-32,-22,82,-12,-18,-33,-23,]),'int':([6,9,25,52,64,83,],[10,10,-19,-20,-17,-18,]),'id':([7,10,12,13,14,15,16,32,33,34,35,37,40,41,42,43,44,45,53,54,55,56,57,60,61,63,66,67,68,69,70,71,72,73,75,77,80,82,85,86,87,],[17,25,17,17,17,17,17,40,40,40,40,50,-30,-21,-26,-29,-31,40,40,40,40,40,40,-15,-16,-14,-24,-25,-27,-28,-34,40,40,17,-32,-22,40,-12,40,-33,-23,]),'print':([7,12,13,14,15,16,40,41,42,43,44,60,61,63,66,67,68,69,70,73,75,77,82,86,87,],[18,18,18,18,18,18,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-34,18,-32,-22,-12,-33,-23,]),'println':([7,12,13,14,15,16,40,41,42,43,44,60,61,63,66,67,68,69,70,73,75,77,82,86,87,],[19,19,19,19,19,19,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-34,19,-32,-22,-12,-33,-23,]),'read':([7,12,13,14,15,16,40,41,42,43,44,60,61,63,66,67,68,69,70,73,75,77,82,86,87,],[21,21,21,21,21,21,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-34,21,-32,-22,-12,-33,-23,]),'repeat':([7,12,13,14,15,16,40,41,42,43,44,60,61,63,66,67,68,69,70,73,75,77,82,86,87,],[22,22,22,22,22,22,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-34,22,-32,-22,-12,-33,-23,]),'=':([17,25,59,81,],[32,39,72,85,]),'[':([17,25,40,59,64,75,],[33,38,53,71,74,80,]),'(':([18,19,20,21,22,32,33,34,35,45,53,54,55,56,57,71,72,80,85,],[34,35,36,37,-13,45,45,45,45,45,45,45,45,45,45,45,45,45,45,]),'num':([32,33,34,35,36,38,39,45,53,54,55,56,57,71,72,74,80,85,],[44,44,44,44,49,51,52,44,44,44,44,44,44,44,44,79,44,44,]),'*':([40,42,43,44,66,67,68,69,70,75,86,],[-30,56,-29,-31,56,56,-27,-28,-34,-32,-33,]),'/':([40,42,43,44,66,67,68,69,70,75,86,],[-30,57,-29,-31,57,57,-27,-28,-34,-32,-33,]),'+':([40,41,42,43,44,46,47,48,58,65,66,67,68,69,70,75,76,77,84,86,87,],[-30,54,-26,-29,-31,54,54,54,54,54,-24,-25,-27,-28,-34,-32,54,54,54,-33,54,]),'-':([40,41,42,43,44,46,47,48,58,65,66,67,68,69,70,75,76,77,84,86,87,],[-30,55,-26,-29,-31,55,55,55,55,55,-24,-25,-27,-28,-34,-32,55,55,55,-33,55,]),']':([40,42,43,44,46,51,65,66,67,68,69,70,75,76,79,84,86,],[-30,-26,-29,-31,59,64,75,-24,-25,-27,-28,-34,-32,81,83,86,-33,]),')':([40,42,43,44,47,48,49,50,58,66,67,68,69,70,75,86,],[-30,-26,-29,-31,60,61,62,63,70,-24,-25,-27,-28,-34,-32,-33,]),}
+_lr_action_items = {'vars':([0,],[3,]),'$end':([1,4,26,],[0,-1,-5,]),'main':([2,23,],[5,-2,]),'{':([3,5,64,],[6,7,85,]),'}':([6,7,8,9,11,12,13,14,15,16,24,25,27,28,29,30,31,40,41,42,43,44,52,62,63,65,66,68,69,70,71,72,75,85,87,98,99,103,104,107,108,],[-4,-11,23,-4,26,-11,-11,-11,-11,-11,-3,-19,-6,-7,-8,-9,-10,-30,-21,-26,-29,-31,-20,-15,-16,-14,-17,-24,-25,-27,-28,-32,-35,-11,-33,-22,103,-12,-18,-34,-23,]),'int':([6,9,25,52,66,104,],[10,10,-19,-20,-17,-18,]),'id':([7,10,12,13,14,15,16,32,33,34,35,37,40,41,42,43,44,45,53,54,55,56,57,60,62,63,65,68,69,70,71,72,73,74,75,76,77,78,79,80,81,83,84,85,87,98,101,103,106,107,108,],[17,25,17,17,17,17,17,40,40,40,40,50,-30,-21,-26,-29,-31,40,40,40,40,40,40,40,-15,-16,-14,-24,-25,-27,-28,-32,40,40,-35,40,40,40,40,40,40,40,40,17,-33,-22,40,-12,40,-34,-23,]),'print':([7,12,13,14,15,16,40,41,42,43,44,62,63,65,68,69,70,71,72,75,85,87,98,103,107,108,],[18,18,18,18,18,18,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-32,-35,18,-33,-22,-12,-34,-23,]),'println':([7,12,13,14,15,16,40,41,42,43,44,62,63,65,68,69,70,71,72,75,85,87,98,103,107,108,],[19,19,19,19,19,19,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-32,-35,19,-33,-22,-12,-34,-23,]),'read':([7,12,13,14,15,16,40,41,42,43,44,62,63,65,68,69,70,71,72,75,85,87,98,103,107,108,],[21,21,21,21,21,21,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-32,-35,21,-33,-22,-12,-34,-23,]),'repeat':([7,12,13,14,15,16,40,41,42,43,44,62,63,65,68,69,70,71,72,75,85,87,98,103,107,108,],[22,22,22,22,22,22,-30,-21,-26,-29,-31,-15,-16,-14,-24,-25,-27,-28,-32,-35,22,-33,-22,-12,-34,-23,]),'=':([17,25,61,102,],[32,39,84,106,]),'[':([17,25,40,61,66,87,],[33,38,53,83,86,101,]),'(':([18,19,20,21,22,32,33,34,35,45,53,54,55,56,57,60,73,74,76,77,78,79,80,81,83,84,101,106,],[34,35,36,37,-13,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,]),'num':([32,33,34,35,36,38,39,45,53,54,55,56,57,60,73,74,76,77,78,79,80,81,83,84,86,101,106,],[44,44,44,44,49,51,52,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,44,100,44,44,]),'*':([40,42,43,44,68,69,70,71,72,75,87,107,],[-30,56,-29,-31,56,56,-27,-28,-32,-35,-33,-34,]),'/':([40,42,43,44,68,69,70,71,72,75,87,107,],[-30,57,-29,-31,57,57,-27,-28,-32,-35,-33,-34,]),'+':([40,41,42,43,44,46,47,48,59,67,68,69,70,71,72,75,82,87,89,91,92,93,94,95,96,97,98,105,107,108,],[-30,54,-26,-29,-31,54,54,54,54,54,-24,-25,-27,-28,-32,-35,54,-33,54,54,54,54,54,54,54,54,54,54,-34,54,]),'-':([40,41,42,43,44,46,47,48,59,67,68,69,70,71,72,75,82,87,89,91,92,93,94,95,96,97,98,105,107,108,],[-30,55,-26,-29,-31,55,55,55,55,55,-24,-25,-27,-28,-32,-35,55,-33,55,55,55,55,55,55,55,55,55,55,-34,55,]),']':([40,42,43,44,46,51,67,68,69,70,71,72,75,87,97,100,105,107,],[-30,-26,-29,-31,61,66,87,-24,-25,-27,-28,-32,-35,-33,102,104,107,-34,]),')':([40,42,43,44,47,48,49,50,58,59,68,69,70,71,72,75,82,87,88,90,91,92,93,94,95,96,107,],[-30,-26,-29,-31,62,63,64,65,72,75,-24,-25,-27,-28,-32,-35,-42,-33,-36,-37,-38,-39,-40,-41,-43,-44,-34,]),'sup':([40,42,43,44,59,68,69,70,71,72,75,87,89,107,],[-30,-26,-29,-31,76,-24,-25,-27,-28,-32,-35,-33,76,-34,]),'inf':([40,42,43,44,59,68,69,70,71,72,75,87,89,107,],[-30,-26,-29,-31,77,-24,-25,-27,-28,-32,-35,-33,77,-34,]),'supeq':([40,42,43,44,59,68,69,70,71,72,75,87,89,107,],[-30,-26,-29,-31,78,-24,-25,-27,-28,-32,-35,-33,78,-34,]),'infeq':([40,42,43,44,59,68,69,70,71,72,75,87,89,107,],[-30,-26,-29,-31,79,-24,-25,-27,-28,-32,-35,-33,79,-34,]),'eq':([40,42,43,44,59,68,69,70,71,72,75,87,89,107,],[-30,-26,-29,-31,80,-24,-25,-27,-28,-32,-35,-33,80,-34,]),'diff':([40,42,43,44,59,68,69,70,71,72,75,87,89,107,],[-30,-26,-29,-31,81,-24,-25,-27,-28,-32,-35,-33,81,-34,]),'and':([40,42,43,44,58,68,69,70,71,72,75,82,87,88,90,91,92,93,94,95,96,107,],[-30,-26,-29,-31,73,-24,-25,-27,-28,-32,-35,-42,-33,73,73,-38,-39,-40,-41,-43,-44,-34,]),'or':([40,42,43,44,58,68,69,70,71,72,75,82,87,88,90,91,92,93,94,95,96,107,],[-30,-26,-29,-31,74,-24,-25,-27,-28,-32,-35,-42,-33,74,74,-38,-39,-40,-41,-43,-44,-34,]),'not':([45,73,74,],[60,60,60,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'Prog':([0,],[1,]),'VarBlc':([0,],[2,]),'MainBlc':([2,],[4,]),'Dcls':([6,9,],[8,24,]),'Dcl':([6,9,],[9,9,]),'Insts':([7,12,13,14,15,16,73,],[11,27,28,29,30,31,78,]),'Attr':([7,12,13,14,15,16,73,],[12,12,12,12,12,12,12,]),'Print':([7,12,13,14,15,16,73,],[13,13,13,13,13,13,13,]),'Println':([7,12,13,14,15,16,73,],[14,14,14,14,14,14,14,]),'Repeat':([7,12,13,14,15,16,73,],[15,15,15,15,15,15,15,]),'Read':([7,12,13,14,15,16,73,],[16,16,16,16,16,16,16,]),'RepeatS':([7,12,13,14,15,16,73,],[20,20,20,20,20,20,20,]),'Exp':([32,33,34,35,45,53,71,72,80,85,],[41,46,47,48,58,65,76,77,84,87,]),'Term':([32,33,34,35,45,53,54,55,71,72,80,85,],[42,42,42,42,42,42,66,67,42,42,42,42,]),'Factor':([32,33,34,35,45,53,54,55,56,57,71,72,80,85,],[43,43,43,43,43,43,43,43,68,69,43,43,43,43,]),}
+_lr_goto_items = {'Prog':([0,],[1,]),'VarBlc':([0,],[2,]),'MainBlc':([2,],[4,]),'Dcls':([6,9,],[8,24,]),'Dcl':([6,9,],[9,9,]),'Insts':([7,12,13,14,15,16,85,],[11,27,28,29,30,31,99,]),'Attr':([7,12,13,14,15,16,85,],[12,12,12,12,12,12,12,]),'Print':([7,12,13,14,15,16,85,],[13,13,13,13,13,13,13,]),'Println':([7,12,13,14,15,16,85,],[14,14,14,14,14,14,14,]),'Repeat':([7,12,13,14,15,16,85,],[15,15,15,15,15,15,15,]),'Read':([7,12,13,14,15,16,85,],[16,16,16,16,16,16,16,]),'RepeatS':([7,12,13,14,15,16,85,],[20,20,20,20,20,20,20,]),'Exp':([32,33,34,35,45,53,60,73,74,76,77,78,79,80,81,83,84,101,106,],[41,46,47,48,59,67,82,89,89,91,92,93,94,95,96,97,98,105,108,]),'Term':([32,33,34,35,45,53,54,55,60,73,74,76,77,78,79,80,81,83,84,101,106,],[42,42,42,42,42,42,68,69,42,42,42,42,42,42,42,42,42,42,42,42,42,]),'Factor':([32,33,34,35,45,53,54,55,56,57,60,73,74,76,77,78,79,80,81,83,84,101,106,],[43,43,43,43,43,43,43,43,70,71,43,43,43,43,43,43,43,43,43,43,43,43,43,]),'Cond':([45,73,74,],[58,88,90,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,38 +26,48 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> Prog","S'",1,None,None,None),
-  ('Prog -> VarBlc MainBlc','Prog',2,'p_Prog','compiler_yacc.py',60),
-  ('VarBlc -> vars { Dcls }','VarBlc',4,'p_VarBlc','compiler_yacc.py',63),
-  ('Dcls -> Dcl Dcls','Dcls',2,'p_Dcls','compiler_yacc.py',66),
-  ('Dcls -> <empty>','Dcls',0,'p_Dcls_End','compiler_yacc.py',69),
-  ('MainBlc -> main { Insts }','MainBlc',4,'p_MainBlc','compiler_yacc.py',75),
-  ('Insts -> Attr Insts','Insts',2,'p_Insts_Attr','compiler_yacc.py',79),
-  ('Insts -> Print Insts','Insts',2,'p_Insts_Print','compiler_yacc.py',82),
-  ('Insts -> Println Insts','Insts',2,'p_Insts_Println','compiler_yacc.py',85),
-  ('Insts -> Repeat Insts','Insts',2,'p_Insts_Repeat','compiler_yacc.py',88),
-  ('Insts -> Read Insts','Insts',2,'p_Insts_Read','compiler_yacc.py',91),
-  ('Insts -> <empty>','Insts',0,'p_Insts_End','compiler_yacc.py',94),
-  ('Repeat -> RepeatS ( num ) { Insts }','Repeat',7,'p_Repeat','compiler_yacc.py',97),
-  ('RepeatS -> repeat','RepeatS',1,'p_RepeatS','compiler_yacc.py',116),
-  ('Read -> read ( id )','Read',4,'p_Read','compiler_yacc.py',124),
-  ('Print -> print ( Exp )','Print',4,'p_Print','compiler_yacc.py',129),
-  ('Println -> println ( Exp )','Println',4,'p_Println','compiler_yacc.py',134),
-  ('Dcl -> int id [ num ]','Dcl',5,'p_Dcl_Arr','compiler_yacc.py',141),
-  ('Dcl -> int id [ num ] [ num ]','Dcl',8,'p_Dcl_Arr_2D','compiler_yacc.py',147),
-  ('Dcl -> int id','Dcl',2,'p_Dcl_0','compiler_yacc.py',153),
-  ('Dcl -> int id = num','Dcl',4,'p_Dcl_num','compiler_yacc.py',159),
-  ('Attr -> id = Exp','Attr',3,'p_Attr','compiler_yacc.py',165),
-  ('Attr -> id [ Exp ] = Exp','Attr',6,'p_Attr_arr','compiler_yacc.py',170),
-  ('Attr -> id [ Exp ] [ Exp ] = Exp','Attr',9,'p_Attr_arr2D','compiler_yacc.py',179),
-  ('Exp -> Exp + Term','Exp',3,'p_Exp_add','compiler_yacc.py',194),
-  ('Exp -> Exp - Term','Exp',3,'p_Exp_sub','compiler_yacc.py',198),
-  ('Exp -> Term','Exp',1,'p_Exp_term','compiler_yacc.py',202),
-  ('Term -> Term * Factor','Term',3,'p_Term_mul','compiler_yacc.py',206),
-  ('Term -> Term / Factor','Term',3,'p_Term_div','compiler_yacc.py',210),
-  ('Term -> Factor','Term',1,'p_Term_factor','compiler_yacc.py',214),
-  ('Factor -> id','Factor',1,'p_Factor_id','compiler_yacc.py',218),
-  ('Factor -> num','Factor',1,'p_Factor_num','compiler_yacc.py',222),
-  ('Factor -> id [ Exp ]','Factor',4,'p_Factor_arr','compiler_yacc.py',227),
-  ('Factor -> id [ Exp ] [ Exp ]','Factor',7,'p_Factor_arr_2d','compiler_yacc.py',231),
-  ('Factor -> ( Exp )','Factor',3,'p_Factor_group','compiler_yacc.py',241),
+  ('Prog -> VarBlc MainBlc','Prog',2,'p_Prog','compiler_yacc.py',72),
+  ('VarBlc -> vars { Dcls }','VarBlc',4,'p_VarBlc','compiler_yacc.py',75),
+  ('Dcls -> Dcl Dcls','Dcls',2,'p_Dcls','compiler_yacc.py',78),
+  ('Dcls -> <empty>','Dcls',0,'p_Dcls_End','compiler_yacc.py',81),
+  ('MainBlc -> main { Insts }','MainBlc',4,'p_MainBlc','compiler_yacc.py',87),
+  ('Insts -> Attr Insts','Insts',2,'p_Insts_Attr','compiler_yacc.py',91),
+  ('Insts -> Print Insts','Insts',2,'p_Insts_Print','compiler_yacc.py',94),
+  ('Insts -> Println Insts','Insts',2,'p_Insts_Println','compiler_yacc.py',97),
+  ('Insts -> Repeat Insts','Insts',2,'p_Insts_Repeat','compiler_yacc.py',100),
+  ('Insts -> Read Insts','Insts',2,'p_Insts_Read','compiler_yacc.py',103),
+  ('Insts -> <empty>','Insts',0,'p_Insts_End','compiler_yacc.py',106),
+  ('Repeat -> RepeatS ( num ) { Insts }','Repeat',7,'p_Repeat','compiler_yacc.py',109),
+  ('RepeatS -> repeat','RepeatS',1,'p_RepeatS','compiler_yacc.py',128),
+  ('Read -> read ( id )','Read',4,'p_Read','compiler_yacc.py',136),
+  ('Print -> print ( Exp )','Print',4,'p_Print','compiler_yacc.py',141),
+  ('Println -> println ( Exp )','Println',4,'p_Println','compiler_yacc.py',146),
+  ('Dcl -> int id [ num ]','Dcl',5,'p_Dcl_Arr','compiler_yacc.py',153),
+  ('Dcl -> int id [ num ] [ num ]','Dcl',8,'p_Dcl_Arr_2D','compiler_yacc.py',159),
+  ('Dcl -> int id','Dcl',2,'p_Dcl_0','compiler_yacc.py',165),
+  ('Dcl -> int id = num','Dcl',4,'p_Dcl_num','compiler_yacc.py',171),
+  ('Attr -> id = Exp','Attr',3,'p_Attr','compiler_yacc.py',177),
+  ('Attr -> id [ Exp ] = Exp','Attr',6,'p_Attr_arr','compiler_yacc.py',183),
+  ('Attr -> id [ Exp ] [ Exp ] = Exp','Attr',9,'p_Attr_arr2D','compiler_yacc.py',192),
+  ('Exp -> Exp + Term','Exp',3,'p_Exp_add','compiler_yacc.py',207),
+  ('Exp -> Exp - Term','Exp',3,'p_Exp_sub','compiler_yacc.py',211),
+  ('Exp -> Term','Exp',1,'p_Exp_term','compiler_yacc.py',215),
+  ('Term -> Term * Factor','Term',3,'p_Term_mul','compiler_yacc.py',219),
+  ('Term -> Term / Factor','Term',3,'p_Term_div','compiler_yacc.py',223),
+  ('Term -> Factor','Term',1,'p_Term_factor','compiler_yacc.py',227),
+  ('Factor -> id','Factor',1,'p_Factor_id','compiler_yacc.py',231),
+  ('Factor -> num','Factor',1,'p_Factor_num','compiler_yacc.py',235),
+  ('Factor -> ( Cond )','Factor',3,'p_Factor_cond','compiler_yacc.py',239),
+  ('Factor -> id [ Exp ]','Factor',4,'p_Factor_arr','compiler_yacc.py',244),
+  ('Factor -> id [ Exp ] [ Exp ]','Factor',7,'p_Factor_arr_2d','compiler_yacc.py',248),
+  ('Factor -> ( Exp )','Factor',3,'p_Factor_group','compiler_yacc.py',253),
+  ('Cond -> Cond and Cond','Cond',3,'p_Cond_and','compiler_yacc.py',257),
+  ('Cond -> Cond or Cond','Cond',3,'p_Cond_or','compiler_yacc.py',261),
+  ('Cond -> Exp sup Exp','Cond',3,'p_Cond_sup','compiler_yacc.py',273),
+  ('Cond -> Exp inf Exp','Cond',3,'p_Cond_inf','compiler_yacc.py',277),
+  ('Cond -> Exp supeq Exp','Cond',3,'p_Cond_supeq','compiler_yacc.py',281),
+  ('Cond -> Exp infeq Exp','Cond',3,'p_Cond_infeq','compiler_yacc.py',285),
+  ('Cond -> not Exp','Cond',2,'p_Cond_not','compiler_yacc.py',289),
+  ('Cond -> Exp eq Exp','Cond',3,'p_Cond_eq','compiler_yacc.py',293),
+  ('Cond -> Exp diff Exp','Cond',3,'p_Cond_diff','compiler_yacc.py',297),
 ]
