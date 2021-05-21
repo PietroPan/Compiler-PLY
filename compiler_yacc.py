@@ -19,6 +19,7 @@ from compiler_lex import tokens
 # Dcl -> int id
 #      | int id = num 
 #      | int id '[' num ']'
+#      | int id '[' num ']' '[' num ']'
 #
 # MainBlc -> main '{' Insts '}'
 # 
@@ -37,6 +38,8 @@ from compiler_lex import tokens
 #
 # Println -> println '(' Exp ')'
 #
+# Prints -> prints '(' string ')'
+#
 # Repeat -> RepeatStart '(' num ')' '{' Insts '}'
 # 
 # RepeatStart -> repeat 
@@ -53,7 +56,7 @@ from compiler_lex import tokens
 #
 # Factor -> id
 #         | num
-#         | Cond
+#         | '(' Cond ')'
 #         | '(' Exp ')'
 #         | "id '[' Exp ']'"
 #         | "id '[' Exp ']' '[' Exp ']'"
@@ -65,6 +68,17 @@ from compiler_lex import tokens
 #       | not Exp
 #       | Exp eq Exp
 #       | Exp diff Exp
+#       | Cond and Cond
+#       | Cond or Cond
+#       | '(' Cond and Cond ')'
+#       | '(' Cond or Cond ')'
+#
+# If -> IfStart '{' Insts '}'
+#     | IfStart '{' Insts '}' ElseStart '{' Insts '}'
+#
+# IfStart -> if '(' Cond ')'
+# 
+# ElseStart -> else
 
 
 def p_Prog(p):
@@ -105,13 +119,16 @@ def p_Insts_Repeat(p):
 def p_Insts_Read(p):
     "Insts : Read Insts"
 
+def p_Insts_If(p):
+    "Insts : If Insts"
+
 def p_Insts_End(p):
     "Insts : "
 
 def p_Repeat(p):
     "Repeat : RepeatS '(' num ')' '{' Insts '}' "
     
-    addr = str(p.parser.numReg+p.parser.offset)
+    addr = str(p.parser.level+p.parser.offset)
     out.write("pushg "+addr+"\n")
     out.write("pushi 1\n")
     out.write("add\n")
@@ -120,20 +137,20 @@ def p_Repeat(p):
     out.write("pushg "+addr+"\n")
     out.write("pushi "+str(p[3])+"\n")
     out.write("equal\n")
-    out.write("jz ciclo"+str(p.parser.table["0ciclo"][p.parser.numReg])+"\n")
+    out.write("jz ciclo"+str(p.parser.table["0ciclo"][p.parser.level])+"\n")
 
     out.write("pushi 0\n")
     out.write("storeg "+addr+"\n")
-    print("EReg: "+str(p.parser.table["0ciclo"][p.parser.numReg]))
-    p.parser.numReg-=1
+    print("EReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
+    p.parser.level-=1
 
 def p_RepeatS(p):
     "RepeatS : repeat"
-    p.parser.numReg+=1
-    p.parser.cicles+=1
-    p.parser.table["0ciclo"][p.parser.numReg]=p.parser.cicles
-    out.write("ciclo"+str(p.parser.cicles)+":\n")
-    print("BReg: "+str(p.parser.table["0ciclo"][p.parser.numReg]))
+    p.parser.level+=1
+    p.parser.currTag+=1
+    p.parser.table["0ciclo"][p.parser.level]=p.parser.currTag
+    out.write("ciclo"+str(p.parser.currTag)+":\n")
+    print("BReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
 
 def p_Read(p):
     "Read : read '(' id ')'"
@@ -209,6 +226,38 @@ def p_Attr_arr2D(p):
     out.write(p[9])
     out.write("storen\n")
 
+def p_If(p):
+    "If : IfStart '{' Insts '}' "
+    out.write("ifEnd"+str(p.parser.table["0ciclo"][p.parser.level])+":\n")
+
+    print("EReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
+    p.parser.level-=1
+
+def p_IfStart(p):
+    "IfStart : if '(' Cond ')'"
+    p.parser.level+=1
+    p.parser.currTag+=1
+    p.parser.table["0ciclo"][p.parser.level]=p.parser.currTag
+    out.write(p[3]+"jz ifEnd"+str(p.parser.currTag)+"\n")
+    
+    print("BReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
+
+def p_If_Else(p):
+    "If : IfStart '{' Insts '}' ElseStart '{' Insts '}'"
+    out.write("elseEnd"+str(p.parser.table["0ciclo"][p.parser.level])+":\n")
+
+    print("EReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
+    p.parser.level-=1
+
+def p_ElseStart(p):
+    "ElseStart : else "
+    p.parser.currTag+=1
+    out.write("jump elseEnd"+str(p.parser.currTag)+"\n")
+    out.write("ifEnd"+str(p.parser.table["0ciclo"][p.parser.level])+":\n")
+
+    print("EReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
+    p.parser.table["0ciclo"][p.parser.level]=p.parser.currTag
+    print("BReg: "+str(p.parser.table["0ciclo"][p.parser.level]))
 
 
 def p_Exp_add(p):
@@ -312,8 +361,9 @@ def p_error(p):
 parser = yacc.yacc()
 parser.table = {}
 parser.offset = 0
-parser.numReg = -1
-parser.cicles = 0
+parser.level = -1
+parser.currTag = 0
+parser.ifs = 0
 
 f = open(sys.argv[1], "r")
 out = open(sys.argv[2], "w")

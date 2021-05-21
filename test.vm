@@ -1,6 +1,35 @@
 pushi 2
 pushn 10
 start
-pushs "asd\n"
+pushg 0
+pushi 3
+inf
+jz ifEnd1
+pushg 0
+pushi 4
+inf
+jz ifEnd2
+pushi 2
+writei
+pushs "\n"
 writes
+jump elseEnd3
+ifEnd2:
+pushg 0
+pushi 2
+equal
+jz ifEnd4
+pushi 3
+writei
+pushs "\n"
+writes
+jump elseEnd5
+ifEnd4:
+pushi 4
+writei
+pushs "\n"
+writes
+elseEnd5:
+elseEnd3:
+ifEnd1:
 stop

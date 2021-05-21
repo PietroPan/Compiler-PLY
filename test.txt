@@ -3,5 +3,17 @@ vars {
 }
 main {
 
-    prints("asd\n")
+    if (a<3){
+        if (a<4){
+            println(2)
+        } else {
+            if (a==2){
+                println(3)
+            }
+                else {
+                    println(4)
+                }
+        }
+
+    }
 }
