@@ -32,6 +32,7 @@ from compiler_lex import tokens
 # 
 # Attr -> id = Exp
 #       | id '[' Exp ']' = Exp
+#       | id '[' Exp ']' '[' Exp ']' = Exp
 # 
 # Print -> print '(' Exp ')'
 #
@@ -54,6 +55,8 @@ from compiler_lex import tokens
 # Factor -> id
 #         | num
 #         | '(' Exp ')'
+#         | "id '[' Exp ']'"
+#         | "id '[' Exp ']' '[' Exp ']'"
 
 def p_Prog(p):
     "Prog : VarBlc MainBlc"
