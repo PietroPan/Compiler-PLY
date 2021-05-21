@@ -168,7 +168,7 @@ def p_Attr(p):
 def p_Attr_arr(p):
     "Attr : id '[' Exp ']' '=' Exp"
     out.write("pushgp\n")
-    out.write("pushi "+str(p.parser.table[p[1]])+"\n")
+    out.write("pushi "+str(p.parser.table[p[1]][0])+"\n")
     out.write("padd\n")
     out.write(p[3])
     out.write(p[6])
@@ -224,7 +224,7 @@ def p_Factor_num(p):
 
 def p_Factor_arr(p):
     "Factor : id '[' Exp ']'"
-    p[0]="pushgp\n"+"pushi "+str(p.parser.table[p[1]])+"\n"+"padd\n"+p[3]+"loadn\n"
+    p[0]="pushgp\n"+"pushi "+str(p.parser.table[p[1]][0])+"\n"+"padd\n"+p[3]+"loadn\n"
 
 def p_Factor_arr_2d(p):
     "Factor : id '[' Exp ']' '[' Exp ']'"
