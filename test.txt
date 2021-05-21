@@ -1,19 +1,20 @@
 vars {
-    int a=2
+    int n
+    int i
+    int in
+    int menor
 }
 main {
-
-    if (a<3){
-        if (a<4){
-            println(2)
-        } else {
-            if (a==2){
-                println(3)
-            }
-                else {
-                    println(4)
-                }
-        }
-
+    prints("Quantos números deseja ler:\n")
+    read(n)
+    prints("Insira um número:\n")
+    read(menor)
+    for(i=1;i<n;i=i+1){
+        prints("Insira um número:\n")
+        read(in)
+        if (in<menor) menor=in
     }
+
+    prints("Menor número inserido: ")
+    println(menor)
 }
