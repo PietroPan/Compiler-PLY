@@ -2,7 +2,6 @@ import sys
 import ply.yacc as yacc
 from compiler_lex import tokens
 
-# Condicoes
 # Ciclo for
 # Ciclo while
 # Subprograms
@@ -96,6 +95,10 @@ def p_Insts_Print(p):
 def p_Insts_Println(p):
     "Insts : Println Insts"
 
+def p_Insts_Prints(p):
+    "Insts : Prints Insts"
+
+
 def p_Insts_Repeat(p):
     "Insts : Repeat Insts"
 
@@ -147,6 +150,11 @@ def p_Println(p):
     out.write(p[3])
     out.write("writei\n")
     out.write("pushs \"\\n\"\n")
+    out.write("writes\n")
+
+def p_Prints(p):
+    "Prints : prints '(' string ')'"
+    out.write("pushs "+p[3]+"\n")
     out.write("writes\n")
 
 def p_Dcl_Arr(p):
@@ -261,13 +269,13 @@ def p_Cond_or(p):
     "Cond : Cond or Cond"
     p[0] = p[1]+p[3]+"add\n"+p[1]+p[3]+"mul\n"+"sub\n"
 
-#def p_Cond_and_par(p):
-#    "Cond : '(' Cond and Cond ')'"
-#    p[0] = p[2]+p[4]+"mul\n"
+def p_Cond_and_par(p):
+    "Cond : '(' Cond and Cond ')'"
+    p[0] = p[2]+p[4]+"mul\n"
 
-#def p_Cond_or_par(p):
-#    "Cond : '(' Cond or Cond ')' "
-#    p[0] = p[2]+p[4]+"add\n"+p[2]+p[4]+"mul\n"+"sub\n"
+def p_Cond_or_par(p):
+    "Cond : '(' Cond or Cond ')' "
+    p[0] = p[2]+p[4]+"add\n"+p[2]+p[4]+"mul\n"+"sub\n"
 
 def p_Cond_sup(p):
     "Cond : Exp sup Exp"
