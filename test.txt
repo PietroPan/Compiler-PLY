@@ -3,11 +3,8 @@ vars {
     int i=2
     int in
     int menor
-    int t[3]
-    int m[3][3]
 }
 main {
-
     prints("Quantos números deseja ler:\n")
     read(n)
     prints("Insira um número:\n")

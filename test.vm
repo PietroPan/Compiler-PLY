@@ -6,6 +6,20 @@ pushn 3
 pushn 9
 pushn 10
 start
+pushgp
+pushi 4
+padd
+pushi 2
+pushi 2
+storen
+pushgp
+pushi 4
+padd
+pushi 2
+loadn
+writei
+pushs "\n"
+writes
 pushs "Quantos números deseja ler:\n"
 writes
 read

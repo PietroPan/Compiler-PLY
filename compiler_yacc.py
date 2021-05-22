@@ -612,21 +612,21 @@ def p_Factor_cond(p):
     p[0] = p[2]
 
 
-#def p_Factor_arr(p):
-#    "Factor : id '[' Exp ']'"
-#    p[0]="pushgp\n"
-#    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
-#    p[0]+="padd\n"+p[3]
-#    p[0]+="loadn\n"
+def p_Factor_arr(p):
+    "Factor : id '[' Exp ']'"
+    p[0]="pushgp\n"
+    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="padd\n"+p[3]
+    p[0]+="loadn\n"
 
-#def p_Factor_arr_2d(p):
-#    "Factor : id '[' Exp ']' '[' Exp ']'"
-#    p[0]="pushgp\n"
-#    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
-#    p[0]+="padd\n"+str(p[3])
-#    p[0]+="pushi "+str(p.parser.table[p[1]][1])+"\n"
-#    p[0]+="mul\n"+str(p[6])
-#    p[0]+="add\n"+"loadn\n"
+def p_Factor_arr_2d(p):
+    "Factor : id '[' Exp ']' '[' Exp ']'"
+    p[0]="pushgp\n"
+    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
+    p[0]+="padd\n"+str(p[3])
+    p[0]+="pushi "+str(p.parser.table[p[1]][1])+"\n"
+    p[0]+="mul\n"+str(p[6])
+    p[0]+="add\n"+"loadn\n"
 
 
 def p_Factor_group(p):
