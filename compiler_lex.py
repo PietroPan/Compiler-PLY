@@ -12,7 +12,8 @@
 import ply.lex as lex
 
 tokens = ['num', 'id', 'int','print','println','prints','string','vars','main','repeat','read','sup','inf','eq','supeq'
-,'infeq','not','diff','and','or','if','else','for']
+,'infeq','not','diff','and','or','if','else','for','while','plus','addeq','subeq','diveq','muleq','addeql','subeql','diveql'
+,'muleql','minus','plusl','minusl','modeq','modeql']
 literals = ['=','(',')','{','}','+','*','-','/','[',']',';','%']
 
 def t_num(t):
@@ -48,6 +49,10 @@ def t_for(t):
     r'for'
     return t
 
+def t_while(t):
+    r'while'
+    return t
+
 def t_vars(t):
     r'vars'
     return t
@@ -66,6 +71,62 @@ def t_if(t):
 
 def t_else(t):
     r'else'
+    return t
+
+def t_addeql(t):
+    r'\.\+\='
+    return t
+
+def t_subeql(t):
+    r'\.\-\='
+    return t
+
+def t_diveql(t):
+    r'\./\='
+    return t
+
+def t_muleql(t):
+    r'\.\*\='
+    return t
+
+def t_modeql(t):
+    r'\.\%\='
+    return t
+
+def t_plus(t):
+    r'\+\+'
+    return t
+
+def t_plusl(t):
+    r'\.\+'
+    return t
+
+def t_minus(t):
+    r'--'
+    return t
+
+def t_minusl(t):
+    r'\.-'
+    return t
+
+def t_addeq(t):
+    r'\+\='
+    return t
+
+def t_subeq(t):
+    r'\-\='
+    return t
+
+def t_diveq(t):
+    r'/\='
+    return t
+
+def t_muleq(t):
+    r'\*\='
+    return t
+
+def t_modeq(t):
+    r'\%\='
     return t
 
 

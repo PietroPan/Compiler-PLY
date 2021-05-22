@@ -36,6 +36,7 @@ from compiler_lex import tokens
 #       | If
 #       | IfElse
 #       | For
+#       | While
 # 
 # Attr -> id = Exp
 #       | id '[' Exp ']' = Exp
@@ -51,18 +52,36 @@ from compiler_lex import tokens
 # 
 # RepeatStart -> repeat 
 #
+# For -> for '(' Insts ';' Cond ';' Insts ')' '{' Insts '}'
+#
+# While -> while '(' Cond ')' '{' Insts '}'
+#
 # Read -> read '(' id ')'
 #
 # Exp -> Exp '+' Term
 #      | Exp '-' Term
+#      | id addeq Term
+#      | id subeq Term
+#      | id addeql Term
+#      | id subeql Term
 #      | Term
 # 
 # Term -> Term '*' Factor
 #       | Term '/' Factor
+#       | id muleq Factor
+#       | id diveq Factor
+#       | id muleql Factor
+#       | id diveql Factor
+#       | id modeq Factor
+#       | id modeql Factor
 #       | Factor
 #
 # Factor -> id
 #         | num
+#         | id minus
+#         | id plus
+#         | id minusl
+#         | id plusl
 #         | '(' Cond ')'
 #         | '(' Exp ')'
 #         | "id '[' Exp ']'"
@@ -86,8 +105,6 @@ from compiler_lex import tokens
 # IfStart -> if '(' Cond ')'
 # 
 # ElseStart -> else
-#
-# For -> for '(' Insts ';' Cond ';' Insts ')' '{' Insts '}'
 
 def p_Prog(p):
     "Prog : VarBlc MainBlc"
@@ -118,7 +135,7 @@ def p_MainBlc(p):
     #out.write("stop\n")
 
 def p_Insts(p):
-    "Insts : Insts Inst"
+    "Insts : Insts Inst "
     p[0]=p[1]+p[2]
 
 def p_Insts_End(p):
@@ -129,6 +146,10 @@ def p_Inst_Attr(p):
     "Inst : Attr"
     p[0]=p[1]
     #out.write(p[1])
+
+def p_Inst_Exp(p):
+    "Inst : Exp"
+    p[0]=p[1]
 
 def p_Inst_Print(p):
     "Inst : Print"
@@ -153,6 +174,10 @@ def p_Inst_Repeat(p):
 
 def p_Inst_For(p):
     "Inst : For"
+    p[0]=p[1]
+
+def p_Inst_While(p):
+    "Inst : While"
     p[0]=p[1]
 
 def p_Inst_Read(p):
@@ -232,6 +257,17 @@ def p_For(p):
     p[0]+=p[10]+p[7]
     p[0]+="jump forStart"+str(p.parser.currTag)+"\n"
     p[0]+="forEnd"+str(p.parser.currTag)+":\n"
+
+def p_While(p):
+    "While : while '(' Cond ')' '{' Insts '}'"
+    p.parser.currTag+=1
+    p[0]="whileStart"+str(p.parser.currTag)+":\n"
+    p[0]+=p[3]
+    p[0]+="jz whileEnd"+str(p.parser.currTag)+"\n"
+    p[0]+=p[6]
+    p[0]+="jump whileStart"+str(p.parser.currTag)+"\n"
+    p[0]+="whileEnd"+str(p.parser.currTag)+":\n"
+    
 
 def p_Read(p):
     "Read : read '(' id ')'"
@@ -314,7 +350,7 @@ def p_Attr_arr(p):
     #out.write("storen\n")
 
     p[0]="pushgp\n"
-    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
+    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
     p[0]+="padd\n"
     p[0]+=p[3]
     p[0]+=p[6]
@@ -429,6 +465,38 @@ def p_Exp_sub(p):
     "Exp : Exp '-' Term"
     p[0] = p[1]+p[3]+"sub\n"
 
+def p_Exp_id_addeq(p):
+    "Exp : id addeq Term"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Exp_id_subeq(p):
+    "Exp : id subeq Term"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Exp_id_addeql(p):
+    "Exp : id addeql Term"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Exp_id_subeql(p):
+    "Exp : id subeql Term"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+
 def p_Exp_term(p):
     "Exp : Term"
     p[0] = p[1]
@@ -445,9 +513,90 @@ def p_Term_mod(p):
     "Term : Term '%' Factor"
     p[0] = p[1]+p[3]+"mod\n"
 
+def p_Term_id_muleq(p):
+    "Term : id muleq Factor"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mul\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Term_id_diveq(p):
+    "Term : id diveq Factor"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="div\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Term_id_modeq(p):
+    "Term : id modeq Factor"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mod\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+
+def p_Term_id_muleql(p):
+    "Term : id muleql Factor"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mul\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Term_id_diveql(p):
+    "Term : id diveql Factor"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="div\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Term_id_modeql(p):
+    "Term : id modeql Factor"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mod\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+
 def p_Term_factor(p):
     "Term : Factor"
     p[0] = p[1]
+
+def p_Factor_id_plus(p):
+    "Factor : id plus"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Factor_id_plusl(p):
+    "Factor : id plusl"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Factor_id_minus(p):
+    "Factor : id minus"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Factor_id_minusl(p):
+    "Factor : id minusl"
+    p[0]="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushg "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.table[p[1]])+"\n"
 
 def p_Factor_id(p):
     "Factor : id"
@@ -457,31 +606,53 @@ def p_Factor_num(p):
     "Factor : num"
     p[0] = "pushi "+str(p[1])+"\n"
 
+
 def p_Factor_cond(p):
     "Factor : '(' Cond ')'"
     p[0] = p[2]
 
 
-def p_Factor_arr(p):
-    "Factor : id '[' Exp ']'"
+#def p_Factor_arr(p):
+#    "Factor : id '[' Exp ']'"
+#    p[0]="pushgp\n"
+#    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
+#    p[0]+="padd\n"+p[3]
+#    p[0]+="loadn\n"
+
+#def p_Factor_arr_2d(p):
+#    "Factor : id '[' Exp ']' '[' Exp ']'"
+#    p[0]="pushgp\n"
+#    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
+#    p[0]+="padd\n"+str(p[3])
+#    p[0]+="pushi "+str(p.parser.table[p[1]][1])+"\n"
+#    p[0]+="mul\n"+str(p[6])
+#    p[0]+="add\n"+"loadn\n"
+
+
+def p_Factor_group(p):
+    "Factor : '(' Exp ')'"
+    p[0] = p[2]
+
+
+def p_Id(p):
+    "Id : id"
+    p[0] = "pushg "+str(p.parser.table[p[1]])+"\n"
+
+def p_Id_arr(p):
+    "Id : id '[' Exp ']'"
     p[0]="pushgp\n"
-    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
+    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
     p[0]+="padd\n"+p[3]
     p[0]+="loadn\n"
 
-def p_Factor_arr_2d(p):
-    "Factor : id '[' Exp ']' '[' Exp ']'"
+def p_Id_arr_2d(p):
+    "Id : id '[' Exp ']' '[' Exp ']'"
     p[0]="pushgp\n"
     p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
     p[0]+="padd\n"+str(p[3])
     p[0]+="pushi "+str(p.parser.table[p[1]][1])+"\n"
     p[0]+="mul\n"+str(p[6])
     p[0]+="add\n"+"loadn\n"
-
-
-def p_Factor_group(p):
-    "Factor : '(' Exp ')'"
-    p[0] = p[2]
 
 def p_Cond_and(p):
     "Cond : Cond and Cond"

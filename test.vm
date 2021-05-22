@@ -1,7 +1,9 @@
 pushi 0
+pushi 2
 pushi 0
 pushi 0
-pushi 0
+pushn 3
+pushn 9
 pushn 10
 start
 pushs "Quantos números deseja ler:\n"
@@ -16,20 +18,11 @@ atoi
 storeg 3
 pushi 1
 storeg 1
-forStart3:
+whileStart2:
 pushg 1
 pushg 0
 inf
-jz forEnd3
-pushg 1
-pushi 3
-mod
-pushi 0
-equal
-jz ifEnd1
-pushs "MOD\n"
-writes
-ifEnd1:
+jz whileEnd2
 pushs "Insira um número:\n"
 writes
 read
@@ -38,16 +31,17 @@ storeg 2
 pushg 2
 pushg 3
 inf
-jz ifEnd2
+jz ifEnd1
 pushg 2
 storeg 3
-ifEnd2:
+ifEnd1:
+pushg 1
 pushg 1
 pushi 1
 add
 storeg 1
-jump forStart3
-forEnd3:
+jump whileStart2
+whileEnd2:
 pushs "Menor número inserido: "
 writes
 pushg 3
