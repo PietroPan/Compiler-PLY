@@ -16,7 +16,7 @@ import ply.lex as lex
 
 tokens = ['num', 'id', 'int','print','println','prints','string','vars','main','repeat','read','sup','inf','eq','supeq'
 ,'infeq','not','diff','and','or','if','else','for','while','plus','addeq','subeq','diveq','muleq','addeql','subeql','diveql'
-,'muleql','minus','plusl','minusl','modeq','modeql','return','global']
+,'muleql','minus','plusl','minusl','modeq','modeql','return','global','gid']
 literals = ['=','(',')','{','}','+','*','-','/','[',']',';','%']
 
 
@@ -176,6 +176,10 @@ def t_and(t):
 
 def t_or(t):
     r'\|\|'
+    return t
+
+def t_gid(t):
+    r'&[a-zA-Z]\w*'
     return t
 
 

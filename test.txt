@@ -1,4 +1,7 @@
-
+global {
+    int k=19
+    int ma[2][3]
+}
 main {
     int n
     int i=2
@@ -21,13 +24,15 @@ main {
     println(func())
     println(fun2())
     println(func())
+    println(&k)
 }
 
 
 func {
+    &ma[1][1]=25
     return(3)
 }
 
 fun2 {
-    return(4)
+    return(&ma[1][1])
 }

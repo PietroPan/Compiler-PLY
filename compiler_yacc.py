@@ -105,8 +105,8 @@ from compiler_lex import tokens
 # ElseStart -> else
 
 def p_Prog(p):
-    "Prog :  MainBlc DefBlcs"
-    out.write(p[1]+p[2])
+    "Prog :  GlobalBlc MainBlc DefBlcs"
+    out.write(p[1]+p[2]+p[3])
 
 def p_DefBlcs(p):
     "DefBlcs : DefBlcs DefBlc "
@@ -131,9 +131,27 @@ def p_VarBlc(p):
     "VarBlc :  Dcls "
     p[0]=p[1]
     p[0]+="pushn 10\n"
+    
     #out.write("pushn 10\n")
     #out.write("start\n")
     #p.parser.table["0ciclo"]=[0,1,2,3,4,5,6,7,8,9]
+
+def p_GlobalBlc(p):
+    "GlobalBlc : global '{' DclGs '}' "
+    p[0]=p[3]
+
+def p_GlobalBlc_Null(p):
+    "GlobalBlc : "
+    p[0]=""
+
+def p_DclGs(p):
+    "DclGs : DclGs DclGlobal"
+    p[0]=p[1]+p[2]
+    #out.write(p[1])
+
+def p_DclGs_End(p):
+    "DclGs : "
+    p[0]=""
 
 def p_Dcls(p):
     "Dcls : Dcls Dcl"
@@ -146,7 +164,8 @@ def p_Dcls_End(p):
 
 def p_MainBlc(p):
     "MainBlc : main '{' VarBlc Insts '}'"
-    p[0]=p[3]+p[4]+"stop\n"
+    p[0]="start\n"
+    p[0]+=p[3]+p[4]+"stop\n"
     
     parser.table = {}
     parser.offset = 0
@@ -355,6 +374,35 @@ def p_Dcl_num(p):
     p.parser.table[p[2]]=p.parser.offset
     p.parser.offset+=1
 
+
+def p_DclGlobal_Arr(p):
+    "DclGlobal : int id '[' num ']'"
+    #out.write("pushn "+str(p[4])+"\n")
+    p[0]="pushn "+str(p[4])+"\n"
+    p.parser.tableG[p[2]]=p.parser.offset
+    p.parser.offset+=p[4]
+
+def p_DclGlobal_Arr_2D(p):
+    "DclGlobal : int id '[' num ']' '[' num ']'"
+    #out.write("pushn "+str(p[4]*p[7])+"\n")
+    p[0]="pushn "+str(p[4]*p[7])+"\n"
+    p.parser.tableG[p[2]]=(p.parser.offset,p[7])
+    p.parser.offset+=p[4]*p[7]
+
+def p_DclGlobal_0(p):
+    "DclGlobal : int id"
+    #out.write("pushi 0\n")
+    p[0]=("pushi 0\n")
+    p.parser.tableG[p[2]]=p.parser.offset
+    p.parser.offset+=1
+
+def p_DclGlobal_num(p):
+    "DclGlobal : int id '=' num"
+    p[0]="pushi "+str(p[4])+"\n"
+    #out.write("pushi "+str(p[4])+"\n")
+    p.parser.tableG[p[2]]=p.parser.offset
+    p.parser.offset+=1
+
 def p_Attr(p):
     "Attr : id '=' Exp"
     #out.write(p[3])
@@ -399,6 +447,38 @@ def p_Attr_arr2D(p):
     p[0]+="padd\n"
     p[0]+=p[3]
     p[0]+="pushi "+str(p.parser.table[p[1]][1])+"\n" #Tamanho das linhas
+    p[0]+="mul\n"
+    p[0]+=p[6]
+    p[0]+="add\n"
+    p[0]+=p[9]
+    p[0]+="storen\n"
+
+def p_Attr_g(p):
+    "Attr : gid '=' Exp"
+
+    p[0]=p[3]
+    p[0]+="storel "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+
+def p_Attr_arrg(p):
+    "Attr : gid '[' Exp ']' '=' Exp"
+
+    p[0]="pushgp\n"
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="padd\n"
+    p[0]+=p[3]
+    p[0]+=p[6]
+    p[0]+="storen\n"
+    
+
+def p_Attr_arr2Dg(p):
+    "Attr : gid '[' Exp ']' '[' Exp ']' '=' Exp"
+
+    p[0]="pushgp\n"
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]][0])+"\n"
+    p[0]+="padd\n"
+    p[0]+=p[3]
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]][1])+"\n" #Tamanho das linhas
     p[0]+="mul\n"
     p[0]+=p[6]
     p[0]+="add\n"
@@ -632,6 +712,10 @@ def p_Factor_id(p):
     "Factor : id"
     p[0] = "pushl "+str(p.parser.table[p[1]])+"\n"
 
+def p_Factor_gid(p):
+    "Factor : gid"
+    p[0] = "pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
 def p_Factor_num(p):
     "Factor : num"
     p[0] = "pushi "+str(p[1])+"\n"
@@ -660,6 +744,22 @@ def p_Factor_arr_2d(p):
     p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
     p[0]+="padd\n"+str(p[3])
     p[0]+="pushi "+str(p.parser.table[p[1]][1])+"\n"
+    p[0]+="mul\n"+str(p[6])
+    p[0]+="add\n"+"loadn\n"
+
+def p_Factor_arrg(p):
+    "Factor : gid '[' Exp ']'"
+    p[0]="pushgp\n"
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="padd\n"+p[3]
+    p[0]+="loadn\n"
+
+def p_Factor_arrg_2d(p):
+    "Factor : gid '[' Exp ']' '[' Exp ']'"
+    p[0]="pushgp\n"
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]][0])+"\n"
+    p[0]+="padd\n"+str(p[3])
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]][1])+"\n"
     p[0]+="mul\n"+str(p[6])
     p[0]+="add\n"+"loadn\n"
 
@@ -740,6 +840,7 @@ def p_error(p):
     print('Syntax error: ', p)
 
 parser = yacc.yacc()
+parser.tableG = {}
 parser.table = {}
 parser.offset = 0
 parser.level = -1
