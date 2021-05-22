@@ -1,0 +1,15 @@
+
+
+start
+pushn 3
+pusha prog
+call
+pushi 7
+pushi 7
+pushi 7
+
+stop
+prog:
+pushi 3
+storel -1
+return

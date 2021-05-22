@@ -2,64 +2,81 @@ pushi 0
 pushi 2
 pushi 0
 pushi 0
-pushn 3
-pushn 9
 pushn 10
-start
-pushgp
-pushi 4
-padd
-pushi 2
-pushi 2
-storen
-pushgp
-pushi 4
-padd
-pushi 2
-loadn
-writei
-pushs "\n"
-writes
 pushs "Quantos números deseja ler:\n"
 writes
 read
 atoi
-storeg 0
+storel 0
 pushs "Insira um número:\n"
 writes
 read
 atoi
-storeg 3
+storel 3
 pushi 1
-storeg 1
+storel 1
 whileStart2:
-pushg 1
-pushg 0
+pushl 1
+pushl 0
 inf
 jz whileEnd2
 pushs "Insira um número:\n"
 writes
 read
 atoi
-storeg 2
-pushg 2
-pushg 3
+storel 2
+pushl 2
+pushl 3
 inf
 jz ifEnd1
-pushg 2
-storeg 3
+pushl 2
+storel 3
 ifEnd1:
-pushg 1
-pushg 1
+pushl 1
+pushl 1
 pushi 1
 add
-storeg 1
+storel 1
 jump whileStart2
 whileEnd2:
 pushs "Menor número inserido: "
 writes
-pushg 3
+pushl 3
+writei
+pushs "\n"
+writes
+pushi 0
+pusha func
+call
+writei
+pushs "\n"
+writes
+pushi 0
+pusha fun2
+call
+writei
+pushs "\n"
+writes
+pushi 0
+pusha func
+call
 writei
 pushs "\n"
 writes
 stop
+func:
+pushn 10
+pushi 3
+storel -1
+return
+pushi 0
+storel -1
+return
+fun2:
+pushn 10
+pushi 4
+storel -1
+return
+pushi 0
+storel -1
+return

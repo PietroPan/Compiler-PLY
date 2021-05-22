@@ -11,10 +11,14 @@
 
 import ply.lex as lex
 
+
+
+
 tokens = ['num', 'id', 'int','print','println','prints','string','vars','main','repeat','read','sup','inf','eq','supeq'
 ,'infeq','not','diff','and','or','if','else','for','while','plus','addeq','subeq','diveq','muleq','addeql','subeql','diveql'
-,'muleql','minus','plusl','minusl','modeq','modeql']
+,'muleql','minus','plusl','minusl','modeq','modeql','return','global']
 literals = ['=','(',')','{','}','+','*','-','/','[',']',';','%']
+
 
 def t_num(t):
     r'\d+'
@@ -23,6 +27,14 @@ def t_num(t):
 
 def t_string(t):
     r'"[^"]*"'
+    return t
+
+def t_return(t):
+    r'return'
+    return t
+
+def t_global(t):
+    r'global'
     return t
 
 def t_println(t):
@@ -165,6 +177,7 @@ def t_and(t):
 def t_or(t):
     r'\|\|'
     return t
+
 
 def t_id(t):
     r'[a-zA-Z]\w*'
