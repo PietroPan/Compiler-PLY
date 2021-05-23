@@ -384,7 +384,7 @@ def p_Attr_g(p):
     "Attr : gid '=' Exp"
 
     p[0]=p[3]
-    p[0]+="storel "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
 
 
 def p_Attr_arrg(p):
@@ -493,6 +493,39 @@ def p_Exp_id_subeql(p):
     p[0]+="sub\n"
     p[0]+="storel "+str(p.parser.table[p[1]])+"\n"
 
+def p_Exp_gid_addeq(p):
+    "Exp : gid addeq Term"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Exp_gid_subeq(p):
+    "Exp : gid subeq Term"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Exp_gid_addeql(p):
+    "Exp : gid addeql Term"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Exp_gid_subeql(p):
+    "Exp : gid subeql Term"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+
 def p_Exp_term(p):
     "Exp : Term"
     p[0] = p[1]
@@ -558,6 +591,55 @@ def p_Term_id_modeql(p):
     p[0]+="mod\n"
     p[0]+="storel "+str(p.parser.table[p[1]])+"\n"
 
+def p_Term_gid_muleq(p):
+    "Term : gid muleq Factor"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mul\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Term_gid_diveq(p):
+    "Term : gid diveq Factor"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="div\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Term_gid_modeq(p):
+    "Term : gid modeq Factor"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mod\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+
+def p_Term_gid_muleql(p):
+    "Term : gid muleql Factor"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mul\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Term_gid_diveql(p):
+    "Term : gid diveql Factor"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="div\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Term_gid_modeql(p):
+    "Term : gid modeql Factor"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+=p[3]
+    p[0]+="mod\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
 def p_Term_factor(p):
     "Term : Factor"
     p[0] = p[1]
@@ -593,6 +675,38 @@ def p_Factor_id_minusl(p):
     p[0]+="pushi 1\n"
     p[0]+="sub\n"
     p[0]+="storel "+str(p.parser.table[p[1]])+"\n"
+
+def p_Factor_gid_plus(p):
+    "Factor : gid plus"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Factor_gid_plusl(p):
+    "Factor : gid plusl"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="add\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Factor_gid_minus(p):
+    "Factor : gid minus"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+
+def p_Factor_gid_minusl(p):
+    "Factor : gid minusl"
+    p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushi 1\n"
+    p[0]+="sub\n"
+    p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
 
 def p_Factor_id(p):
     "Factor : id"

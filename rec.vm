@@ -1,0 +1,81 @@
+pushi 1
+pushn 10
+start
+pushi 0
+pusha func
+call
+stop
+func:
+pushi 0
+pushn 10
+pushg 0
+pushg 0
+pushi 1
+add
+storeg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushi 1
+add
+storeg 0
+pushg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushi 1
+sub
+storeg 0
+pushg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushi 1
+sub
+storeg 0
+pushg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushg 0
+pushi 1
+add
+storeg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushi 1
+add
+storeg 0
+pushg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushg 0
+pushi 1
+sub
+storeg 0
+writei
+pushs "\n"
+writes
+pushg 0
+pushg 0
+pushi 1
+sub
+storeg 0
+writei
+pushs "\n"
+writes
+pushg 0
+writei
+pushs "\n"
+writes
+pushi 0
+storel -1
+return

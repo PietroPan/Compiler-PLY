@@ -1,0 +1,17 @@
+global {
+    int {
+        i=1
+    }
+}
+
+main {
+
+    func()
+}
+
+func {
+    int{
+        a
+    }
+    
+}
