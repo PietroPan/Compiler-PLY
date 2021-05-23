@@ -148,9 +148,12 @@ def p_VarBlcs_End(p):
     
 
 def p_GlobalBlc(p):
-    "GlobalBlc : global '{' VarBlcs '}' "
-    p.parser.isGlobal=False
+    "GlobalBlc : GlobalBegin VarBlcs '}' "
     p[0]=p[3]
+
+def p_GlobalBegin(p):
+    "GlobalBegin : global '{' "
+    p.parser.isGlobal=True
 
 def p_GlobalBlc_Null(p):
     "GlobalBlc : "
@@ -319,20 +322,83 @@ def p_Dcl_Arr(p):
         p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=p[3]
 
+def p_Dcl_Arr_valEq(p):
+    "Dcl : id '[' num ']' '=' num"
+    p[0]=""
+    for i in range(p[3]):
+        p[0]+="pushi "+str(p[6])+"\n"
+        
+    if p.parser.isGlobal:
+        p.parser.tableG[p[1]]=p.parser.offset
+    else:
+        p.parser.table[p[1]]=p.parser.offset
+    p.parser.offset+=p[3]
+
+def p_Dcl_Arr_val(p):
+    "Dcl : id '[' ']' '=' '{' Nums '}'"
+    p[0]=p[6]
+    if p.parser.isGlobal:
+        p.parser.tableG[p[1]]=p.parser.offset
+    else:
+        p.parser.table[p[1]]=p.parser.offset
+    p.parser.offset+=p.parser.arraySize
+    p.parser.arraySize=0
+
+def p_Nums(p):
+    "Nums : Nums num"
+    p.parser.arraySize+=1
+    p[0]=p[1]+"pushi "+str(p[2])+"\n"
+
+def p_Nums_End(p):
+    "Nums : "
+    p[0]= ""
+
+def p_Dcl_Arr_2D_valEq(p):
+    "Dcl : id '[' num ']' '[' num ']' '=' num"
+    p[0]=""
+    for i in range(p[3]*p[6]):
+        p[0]+="pushi "+str(p[9])+"\n"
+
+    if p.parser.isGlobal:
+        p.parser.tableG[p[1][1:]]=(p.parser.offset,p[6])
+    else:
+        p.parser.table[p[1]]=(p.parser.offset,p[6])
+    p.parser.offset+=p[3]*p[6]
+
 def p_Dcl_Arr_2D(p):
     "Dcl : id '[' num ']' '[' num ']'"
     p[0]="pushn "+str(p[3]*p[6])+"\n"
     if p.parser.isGlobal:
-        p.parser.tableG[p[1]]=(p.parser.offset,p[6])
+        p.parser.tableG[p[1][1:]]=(p.parser.offset,p[6])
     else:
         p.parser.table[p[1]]=(p.parser.offset,p[6])
     p.parser.offset+=p[3]*p[6]
+
+def p_Dcl_Arr_2D_val(p):
+    "Dcl : id '[' ']' '[' ']' '=' '{' BlcsNums '}' "
+    p[0]=p[8]
+    if p.parser.isGlobal:
+        p.parser.tableG[p[1][1:]]=(p.parser.offset,int(p.parser.arraySize/p.parser.linhas))
+    else:
+        p.parser.table[p[1]]=(p.parser.offset,int(p.parser.arraySize/p.parser.linhas))
+    p.parser.offset+=p.parser.arraySize
+    p.parser.arraySize=0
+    p.parser.linhas=0
+
+def p_BlcsNums(p):
+    "BlcsNums : BlcsNums '{' Nums '}'"
+    p.parser.linhas+=1
+    p[0]=p[1]+p[3]
+
+def p_BlcsNums_End(p):
+    "BlcsNums : "
+    p[0]=""
 
 def p_Dcl_0(p):
     "Dcl : id"
     p[0]=("pushi 0\n")
     if p.parser.isGlobal:
-        p.parser.tableG[p[1]]=p.parser.offset
+        p.parser.tableG[p[1][1:]]=p.parser.offset
     else:
         p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=1
@@ -341,7 +407,7 @@ def p_Dcl_num(p):
     "Dcl : id '=' num"
     p[0]="pushi "+str(p[3])+"\n"
     if p.parser.isGlobal:
-        p.parser.tableG[p[1]]=p.parser.offset
+        p.parser.tableG[p[1][1:]]=p.parser.offset
     else:
         p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=1
@@ -825,7 +891,9 @@ parser.table = {}
 parser.offset = 0
 parser.level = -1
 parser.currTag = 0
-parser.isGlobal = True
+parser.isGlobal = False
+parser.arraySize = 0
+parser.linhas = 0
 
 f = open(sys.argv[1], "r")
 out = open(sys.argv[2], "w")

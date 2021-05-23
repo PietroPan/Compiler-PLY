@@ -1,17 +1,22 @@
-global {
-    int {
-        i=1
-    }
-}
+
 
 main {
-
-    func()
-}
-
-func {
     int{
-        a
+        i j
+        a[4][5]=5
+        b[6]=6
     }
-    
+    for (i=0;i<4;i++){
+        for (j=0;j<5;j++){
+            print(a[i][j])
+            prints(" ")
+        }
+        prints("\n")
+    }
+
+    for (i=0;i<6;i++){
+        print(b[i])
+        prints(" ")
+    }
 }
+
