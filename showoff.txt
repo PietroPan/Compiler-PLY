@@ -13,9 +13,11 @@ main{
             {11 12 13 14 15}
             {16 17 18 19 20}
         }
+        nums2[5]
         a
         i j
     }
+    println(nums2[1])
     println(func2())
     a=func2()
     &a=func2()*3
@@ -38,7 +40,7 @@ main{
         prints("\n")
     }
     
-    println((nums[2][3]==nums[2*5+3]))
+
 
     i++
     i.+

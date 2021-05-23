@@ -251,14 +251,12 @@ def p_Repeat(p):
     p[0]+="pushi 0\n"
     p[0]+="storel "+addr+"\n"
 
-    print("EReg: "+str(p.parser.level))
     p.parser.level-=1
 
 
 def p_RepeatS(p):
     "RepeatS : repeat"
     p.parser.level+=1
-    print("BReg: "+str(p.parser.level))
 
 def p_For(p):
     "For : for '(' Insts ';' Cond ';' Insts ')' '{' Insts '}'"
@@ -314,9 +312,9 @@ def p_Dcl_Arr(p):
     "Dcl : id '[' num ']'"
     p[0]="pushn "+str(p[3])+"\n"
     if p.parser.isGlobal:
-        p.parser.tableG[p[1]]=p.parser.offset
+        p.parser.tableG[p[1]]=(p.parser.offset,0)
     else:
-        p.parser.table[p[1]]=p.parser.offset
+        p.parser.table[p[1]]=(p.parser.offset,0)
     p.parser.offset+=p[3]
 
 def p_Dcl_Arr_valEq(p):
@@ -326,18 +324,18 @@ def p_Dcl_Arr_valEq(p):
         p[0]+="pushi "+str(p[6])+"\n"
         
     if p.parser.isGlobal:
-        p.parser.tableG[p[1]]=p.parser.offset
+        p.parser.tableG[p[1]]=(p.parser.offset,0)
     else:
-        p.parser.table[p[1]]=p.parser.offset
+        p.parser.table[p[1]]=(p.parser.offset,0)
     p.parser.offset+=p[3]
 
 def p_Dcl_Arr_val(p):
     "Dcl : id '[' ']' '=' '{' Nums '}'"
     p[0]=p[6]
     if p.parser.isGlobal:
-        p.parser.tableG[p[1]]=p.parser.offset
+        p.parser.tableG[p[1]]=(p.parser.offset,0)
     else:
-        p.parser.table[p[1]]=p.parser.offset
+        p.parser.table[p[1]]=(p.parser.offset,0)
     p.parser.offset+=p.parser.arraySize
     p.parser.arraySize=0
 
@@ -813,7 +811,7 @@ def p_Factor_arr_2d(p):
 def p_Factor_arrg(p):
     "Factor : gid '[' Exp ']'"
     p[0]="pushgp\n"
-    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]][0])+"\n"
     p[0]+="padd\n"+p[3]
     p[0]+="loadn\n"
 
