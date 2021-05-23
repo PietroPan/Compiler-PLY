@@ -420,7 +420,7 @@ def p_Attr_arr(p):
     "Attr : id '[' Exp ']' '=' Exp"
 
     p[0]="pushfp\n"
-    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushi "+str(p.parser.table[p[1][0]])+"\n"
     p[0]+="padd\n"
     p[0]+=p[3]
     p[0]+=p[6]
@@ -452,7 +452,7 @@ def p_Attr_arrg(p):
     "Attr : gid '[' Exp ']' '=' Exp"
 
     p[0]="pushgp\n"
-    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]])+"\n"
+    p[0]+="pushi "+str(p.parser.tableG[p[1][1:]][0])+"\n"
     p[0]+="padd\n"
     p[0]+=p[3]
     p[0]+=p[6]

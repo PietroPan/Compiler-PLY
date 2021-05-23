@@ -17,6 +17,8 @@ main{
         a
         i j
     }
+
+    &arr[2]=2
     println(nums2[1])
     println(func2())
     a=func2()
@@ -40,7 +42,9 @@ main{
         prints("\n")
     }
     
+    println((nums[2][3]==nums[2*5+3]))
 
+    println(&arr[0][2])
 
     i++
     i.+

@@ -31,6 +31,12 @@ pushi 0
 pushi 0
 pushi 0
 pushn 10
+pushgp
+pushi 1
+padd
+pushi 2
+pushi 2
+storen
 pushfp
 pushi 20
 padd
@@ -137,6 +143,40 @@ storel 26
 pushl 26
 jump forStart3
 forEnd3:
+pushfp
+pushi 0
+padd
+pushi 2
+pushi 5
+mul
+pushi 3
+add
+loadn
+pushfp
+pushi 0
+padd
+pushi 2
+pushi 5
+mul
+pushi 3
+add
+loadn
+equal
+writei
+pushs "\n"
+writes
+pushgp
+pushi 1
+padd
+pushi 0
+pushi 0
+mul
+pushi 2
+add
+loadn
+writei
+pushs "\n"
+writes
 pushl 26
 pushi 1
 add
