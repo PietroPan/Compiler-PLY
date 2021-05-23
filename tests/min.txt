@@ -1,8 +1,10 @@
 vars {
-    int n
-    int i
-    int in
-    int menor
+    int {
+        n
+        i
+        in
+        menor
+    }
 }
 main {
     prints("Quantos números deseja ler:\n")

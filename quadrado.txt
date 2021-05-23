@@ -1,9 +1,9 @@
 main {
     int {
-        r
-        init
+        init 
         inp
         i
+        r
     }
 
     prints("Insira 4 números:\n")
@@ -19,4 +19,5 @@ main {
     } else {
         prints("Números introduzidos não podem ser lados de um quadrado\n")
     }
+    
 }

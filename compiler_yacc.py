@@ -128,7 +128,7 @@ def p_DefBlc(p):
 
 
 def p_VarBlc(p):
-    "VarBlc :  Dcls "
+    "VarBlc : BlcInt "
     p[0]=p[1]
     p[0]+="pushn 10\n"
     
@@ -346,32 +346,36 @@ def p_Prints(p):
     #out.write("pushs "+p[3]+"\n")
     #out.write("writes\n")
 
+def p_BlcInc(p):
+    "BlcInt : int '{' Dcls '}' "
+    p[0]=p[3]
+
 def p_Dcl_Arr(p):
-    "Dcl : int id '[' num ']'"
+    "Dcl : id '[' num ']'"
     #out.write("pushn "+str(p[4])+"\n")
-    p[0]="pushn "+str(p[4])+"\n"
-    p.parser.table[p[2]]=p.parser.offset
-    p.parser.offset+=p[4]
+    p[0]="pushn "+str(p[3])+"\n"
+    p.parser.table[p[1]]=p.parser.offset
+    p.parser.offset+=p[3]
 
 def p_Dcl_Arr_2D(p):
-    "Dcl : int id '[' num ']' '[' num ']'"
+    "Dcl : id '[' num ']' '[' num ']'"
     #out.write("pushn "+str(p[4]*p[7])+"\n")
-    p[0]="pushn "+str(p[4]*p[7])+"\n"
-    p.parser.table[p[2]]=(p.parser.offset,p[7])
-    p.parser.offset+=p[4]*p[7]
+    p[0]="pushn "+str(p[3]*p[6])+"\n"
+    p.parser.table[p[1]]=(p.parser.offset,p[6])
+    p.parser.offset+=p[3]*p[6]
 
 def p_Dcl_0(p):
-    "Dcl : int id"
+    "Dcl : id"
     #out.write("pushi 0\n")
     p[0]=("pushi 0\n")
-    p.parser.table[p[2]]=p.parser.offset
+    p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=1
 
 def p_Dcl_num(p):
-    "Dcl : int id '=' num"
-    p[0]="pushi "+str(p[4])+"\n"
+    "Dcl : id '=' num"
+    p[0]="pushi "+str(p[3])+"\n"
     #out.write("pushi "+str(p[4])+"\n")
-    p.parser.table[p[2]]=p.parser.offset
+    p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=1
 
 

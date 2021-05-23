@@ -4,10 +4,12 @@ main {
 }
 
 pow {
-    int base
-    int exp
-    int i
-    int r
+    int{
+        base
+        exp
+        i
+        r
+    }
 
     prints("Insira base:\n")
     read(base)

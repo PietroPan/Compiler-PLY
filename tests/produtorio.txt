@@ -1,7 +1,9 @@
 main {
-    int n
-    int r=1
-    
+    int {
+        n
+        r=1
+    }
+
     prints("Introduza numero (0 para terminar):\n")
     read(n)
     while (n!=0){

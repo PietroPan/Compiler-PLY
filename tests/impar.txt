@@ -1,7 +1,9 @@
 main {
-    int start
-    int end
-    int r
+    int{
+        start
+        end
+        r
+    }
     
     prints("Introduza número inicial:\n")
     read(start)

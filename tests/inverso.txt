@@ -1,8 +1,10 @@
 main {
-    int inp[100]
-    int n
-    int i
-    int aux
+    int{
+        inp[100]
+        n
+        i
+        aux
+    }
 
     prints("Quantos números deseja introduzir? (máximo 100)\n")
     read(n)
