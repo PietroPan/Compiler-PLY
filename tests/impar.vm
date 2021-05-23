@@ -1,0 +1,74 @@
+start
+pushi 0
+pushi 0
+pushi 0
+pushn 10
+pushs "Introduza número inicial:\n"
+writes
+read
+atoi
+storel 0
+pushs "Introduza número final:\n"
+writes
+read
+atoi
+storel 1
+whileStart1:
+pushl 0
+pushl 1
+sup
+jz whileEnd1
+pushs "ERRO: Número inical deve ser menor que o final:\n"
+writes
+pushs "Introduza número inicial:\n"
+writes
+read
+atoi
+storel 0
+pushs "Introduza número final:\n"
+writes
+read
+atoi
+storel 1
+jump whileStart1
+whileEnd1:
+pushi 0
+storel 2
+forStart3:
+pushl 0
+pushl 1
+infeq
+jz forEnd3
+pushl 0
+pushi 2
+mod
+pushi 0
+equal
+not
+jz ifEnd2
+pushs "Impar: "
+writes
+pushl 0
+writei
+pushs "\n"
+writes
+pushl 2
+pushi 1
+add
+storel 2
+pushl 2
+ifEnd2:
+pushl 0
+pushi 1
+add
+storel 0
+pushl 0
+jump forStart3
+forEnd3:
+pushs "Total de números ímpares: "
+writes
+pushl 2
+writei
+pushs "\n"
+writes
+stop

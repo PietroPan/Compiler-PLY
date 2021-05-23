@@ -1,0 +1,49 @@
+start
+pushi 0
+pushi 0
+pushi 0
+pushi 0
+pushn 10
+pushs "Insira 4 números:\n"
+writes
+read
+atoi
+storel 1
+pushl 1
+storel 2
+pushi 0
+storel 3
+forStart1:
+pushl 3
+pushi 3
+inf
+jz forEnd1
+read
+atoi
+storel 2
+pushl 0
+pushl 2
+pushl 1
+equal
+add
+storel 0
+pushl 0
+pushl 3
+pushi 1
+add
+storel 3
+pushl 3
+jump forStart1
+forEnd1:
+pushl 0
+pushi 3
+equal
+jz ifEnd2
+pushs "Números introduzidos podem ser lados de um quadrado\n"
+writes
+jump elseEnd2
+ifEnd2:
+pushs "Números introduzidos não podem ser lados de um quadrado\n"
+writes
+elseEnd2:
+stop

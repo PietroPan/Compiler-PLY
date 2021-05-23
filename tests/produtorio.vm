@@ -1,0 +1,34 @@
+start
+pushi 0
+pushi 1
+pushn 10
+pushs "Introduza numero (0 para terminar):\n"
+writes
+read
+atoi
+storel 0
+whileStart1:
+pushl 0
+pushi 0
+equal
+not
+jz whileEnd1
+pushl 1
+pushl 0
+mul
+storel 1
+pushl 1
+pushs "Introduza numero (0 para terminar):\n"
+writes
+read
+atoi
+storel 0
+jump whileStart1
+whileEnd1:
+pushs "Produtorio: \n"
+writes
+pushl 1
+writei
+pushs "\n"
+writes
+stop

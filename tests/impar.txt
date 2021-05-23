@@ -1,0 +1,22 @@
+main {
+    int start
+    int end
+    int r
+    
+    prints("Introduza número inicial:\n")
+    read(start)
+    prints("Introduza número final:\n")
+    read(end)
+
+    for (r=0 ; start<=end ; start++){
+        if ((start%2)!=0){
+            prints("Impar: ")
+            println(start)
+            r++
+        }
+    }
+
+    prints("Total de números ímpares: ")
+    println(r)
+
+}

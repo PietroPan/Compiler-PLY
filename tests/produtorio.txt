@@ -1,0 +1,14 @@
+main {
+    int n
+    int r=1
+    
+    prints("Introduza numero (0 para terminar):\n")
+    read(n)
+    while (n!=0){
+        r*=n
+        prints("Introduza numero (0 para terminar):\n")
+        read(n)
+    }
+    prints("Produtorio: \n")
+    println(r)
+}

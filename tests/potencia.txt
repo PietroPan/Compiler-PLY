@@ -1,0 +1,23 @@
+main {
+    prints("Valor Retornado: \n")
+    println(pow())
+}
+
+pow {
+    int base
+    int exp
+    int i
+    int r
+
+    prints("Insira base:\n")
+    read(base)
+
+    prints("Insira expoente:\n")
+    read(exp)
+
+    for(i=0 r=1;i<exp;i++){
+        r*=base
+    }
+
+    return(r)
+}

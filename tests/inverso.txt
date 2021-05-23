@@ -1,0 +1,20 @@
+main {
+    int inp[100]
+    int n
+    int i
+    int aux
+
+    prints("Quantos números deseja introduzir? (máximo 100)\n")
+    read(n)
+
+    prints("Introduza ") print(n) prints(" números:\n")
+    for(i=0;i<n;i++){
+        read(aux)
+        inp[i]=aux
+    }
+    prints("Ordem Inversa: \n")
+    for(i=n-1;i>=0;i--){
+        println(inp[i])
+    }
+
+}

@@ -1,0 +1,67 @@
+start
+pushn 100
+pushi 0
+pushi 0
+pushi 0
+pushn 10
+pushs "Quantos números deseja introduzir? (máximo 100)\n"
+writes
+read
+atoi
+storel 100
+pushs "Introduza "
+writes
+pushl 100
+writei
+pushs " números:\n"
+writes
+pushi 0
+storel 101
+forStart1:
+pushl 101
+pushl 100
+inf
+jz forEnd1
+read
+atoi
+storel 102
+pushfp
+pushi 0
+padd
+pushl 101
+pushl 102
+storen
+pushl 101
+pushi 1
+add
+storel 101
+pushl 101
+jump forStart1
+forEnd1:
+pushs "Ordem Inversa: \n"
+writes
+pushl 100
+pushi 1
+sub
+storel 101
+forStart2:
+pushl 101
+pushi 0
+supeq
+jz forEnd2
+pushfp
+pushi 0
+padd
+pushl 101
+loadn
+writei
+pushs "\n"
+writes
+pushl 101
+pushi 1
+sub
+storel 101
+pushl 101
+jump forStart2
+forEnd2:
+stop
