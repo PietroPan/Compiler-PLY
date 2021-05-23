@@ -1,0 +1,68 @@
+global{
+    int {
+        a
+        arr[5] = 5
+    }
+}
+
+main{
+    int{
+        nums[][]={
+            {1 2 3 4 5}
+            {6 7 8 9 10}
+            {11 12 13 14 15}
+            {16 17 18 19 20}
+        }
+        a
+        i j
+    }
+    println(func2())
+    a=func2()
+    &a=func2()*3
+    println(a+&a)
+    func1()
+    println(func1())
+
+    repeat(5){
+        print(&arr[i.+])
+        prints(" ")
+    }
+    prints("\n")
+
+
+    for(i=0;i<4;i++){
+        for(j=0;j<5;j++){
+            print(nums[i][j])
+            prints(" ")
+        }
+        prints("\n")
+    }
+    
+    println((nums[2][3]==nums[2*5+3]))
+
+    i++
+    i.+
+    i--
+    i.-
+    i+=2
+    i.+=2
+    i-=2
+    i.-=2
+    i*=2
+    i.*=2
+    i/=2
+    i./=2
+
+}
+
+func1{
+    prints("Supp\n")
+}
+
+func2{
+    int {
+        a=3
+    }
+
+    return(3)
+}

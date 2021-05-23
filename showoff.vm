@@ -1,0 +1,228 @@
+pushi 0
+pushi 5
+pushi 5
+pushi 5
+pushi 5
+pushi 5
+pushn 10
+start
+pushi 1
+pushi 2
+pushi 3
+pushi 4
+pushi 5
+pushi 6
+pushi 7
+pushi 8
+pushi 9
+pushi 10
+pushi 11
+pushi 12
+pushi 13
+pushi 14
+pushi 15
+pushi 16
+pushi 17
+pushi 18
+pushi 19
+pushi 20
+pushi 0
+pushi 0
+pushi 0
+pushn 10
+pushi 0
+pusha func2
+call
+writei
+pushs "\n"
+writes
+pushi 0
+pusha func2
+call
+storel 20
+pushi 0
+pusha func2
+call
+pushi 3
+mul
+storeg 0
+pushl 20
+pushg 0
+add
+writei
+pushs "\n"
+writes
+pushi 0
+pusha func1
+call
+pushi 0
+pusha func1
+call
+writei
+pushs "\n"
+writes
+repeat1:
+pushgp
+pushi 1
+padd
+pushl 21
+pushl 21
+pushi 1
+add
+storel 21
+loadn
+writei
+pushs " "
+writes
+pushl 23
+pushi 1
+add
+storel 23
+pushl 23
+pushi 5
+equal
+jz repeat1
+pushi 0
+storel 23
+pushs "\n"
+writes
+pushi 0
+storel 21
+forStart3:
+pushl 21
+pushi 4
+inf
+jz forEnd3
+pushi 0
+storel 22
+forStart2:
+pushl 22
+pushi 5
+inf
+jz forEnd2
+pushfp
+pushi 0
+padd
+pushl 21
+pushi 5
+mul
+pushl 22
+add
+loadn
+writei
+pushs " "
+writes
+pushl 22
+pushi 1
+add
+storel 22
+pushl 22
+jump forStart2
+forEnd2:
+pushs "\n"
+writes
+pushl 21
+pushi 1
+add
+storel 21
+pushl 21
+jump forStart3
+forEnd3:
+pushfp
+pushi 0
+padd
+pushi 2
+pushi 5
+mul
+pushi 3
+add
+loadn
+pushfp
+pushi 0
+padd
+pushi 2
+pushi 5
+mul
+pushi 3
+add
+loadn
+equal
+writei
+pushs "\n"
+writes
+pushl 21
+pushi 1
+add
+storel 21
+pushl 21
+pushl 21
+pushl 21
+pushi 1
+add
+storel 21
+pushl 21
+pushi 1
+sub
+storel 21
+pushl 21
+pushl 21
+pushl 21
+pushi 1
+sub
+storel 21
+pushl 21
+pushi 2
+add
+storel 21
+pushl 21
+pushl 21
+pushl 21
+pushi 2
+add
+storel 21
+pushl 21
+pushi 2
+sub
+storel 21
+pushl 21
+pushl 21
+pushl 21
+pushi 2
+sub
+storel 21
+pushl 21
+pushi 2
+mul
+storel 21
+pushl 21
+pushl 21
+pushl 21
+pushi 2
+mul
+storel 21
+pushl 21
+pushi 2
+div
+storel 21
+pushl 21
+pushl 21
+pushl 21
+pushi 2
+div
+storel 21
+stop
+func1:
+pushs "Supp\n"
+writes
+pushi 0
+storel -1
+return
+func2:
+pushi 3
+pushn 10
+pushi 3
+storel -1
+return
+pushi 0
+storel -1
+return

@@ -16,7 +16,7 @@ import ply.lex as lex
 
 tokens = ['num', 'id', 'int','print','println','prints','string','main','repeat','read','sup','inf','eq','supeq'
 ,'infeq','not','diff','and','or','if','else','for','while','plus','addeq','subeq','diveq','muleq','addeql','subeql','diveql'
-,'muleql','minus','plusl','minusl','modeq','modeql','return','global','gid','numR']
+,'muleql','minus','plusl','minusl','modeq','modeql','return','global','gid']
 literals = ['=','(',')','{','}','+','*','-','/','[',']',';','%',',']
 
 
@@ -90,6 +90,10 @@ def t_else(t):
     r'else'
     return t
 
+def t_diveql(t):
+    r'\./='
+    return t
+
 def t_addeql(t):
     r'\.\+\='
     return t
@@ -98,9 +102,7 @@ def t_subeql(t):
     r'\.\-\='
     return t
 
-def t_diveql(t):
-    r'\./\='
-    return t
+
 
 def t_muleql(t):
     r'\.\*\='
@@ -135,7 +137,7 @@ def t_subeq(t):
     return t
 
 def t_diveq(t):
-    r'/\='
+    r'/='
     return t
 
 def t_muleq(t):

@@ -3,12 +3,6 @@ import ply.yacc as yacc
 from compiler_lex import tokens
 
 
-# Subprograms
-# int a[4] = 5
-# a[] = 5
-# int a,b,f
-
-
 # Prog -> VarBlc MainBlc
 #
 # VarBlc -> vars '{' Dcls '}'
@@ -149,11 +143,14 @@ def p_VarBlcs_End(p):
 
 def p_GlobalBlc(p):
     "GlobalBlc : GlobalBegin VarBlcs '}' "
-    p[0]=p[3]
+    p[0]=p[1]+p[2]
+    parser.offset = 0
+    p.parser.isGlobal=False
 
 def p_GlobalBegin(p):
     "GlobalBegin : global '{' "
     p.parser.isGlobal=True
+    p[0]=""
 
 def p_GlobalBlc_Null(p):
     "GlobalBlc : "
@@ -398,7 +395,7 @@ def p_Dcl_0(p):
     "Dcl : id"
     p[0]=("pushi 0\n")
     if p.parser.isGlobal:
-        p.parser.tableG[p[1][1:]]=p.parser.offset
+        p.parser.tableG[p[1]]=p.parser.offset
     else:
         p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=1
@@ -407,7 +404,7 @@ def p_Dcl_num(p):
     "Dcl : id '=' num"
     p[0]="pushi "+str(p[3])+"\n"
     if p.parser.isGlobal:
-        p.parser.tableG[p[1][1:]]=p.parser.offset
+        p.parser.tableG[p[1]]=p.parser.offset
     else:
         p.parser.table[p[1]]=p.parser.offset
     p.parser.offset+=1
@@ -800,7 +797,7 @@ def p_Factor_cond(p):
 def p_Factor_arr(p):
     "Factor : id '[' Exp ']'"
     p[0]="pushfp\n"
-    p[0]+="pushi "+str(p.parser.table[p[1]])+"\n"
+    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
     p[0]+="padd\n"+p[3]
     p[0]+="loadn\n"
 
