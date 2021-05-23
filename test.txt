@@ -1,12 +1,16 @@
 global {
-    int k=19
-    int ma[2][3]
+    int {
+        k=19
+        ma[2][3]
+    }
 }
 main {
-    int n
-    int i=2
-    int in
-    int menor
+    int {
+        n
+        i=2
+        in
+        menor
+    }
     prints("Quantos números deseja ler:\n")
     read(n)
     prints("Insira um número:\n")
@@ -29,6 +33,10 @@ main {
 
 
 func {
+    int {
+        a
+        s=2
+    }
     &ma[1][1]=25
     return(3)
 }

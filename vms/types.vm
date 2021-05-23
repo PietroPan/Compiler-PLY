@@ -1,0 +1,7 @@
+start
+pushi 3
+pushf 10.25
+storeg 0
+pushg 0
+writef
+stop

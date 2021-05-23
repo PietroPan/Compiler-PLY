@@ -14,11 +14,16 @@ import ply.lex as lex
 
 
 
-tokens = ['num', 'id', 'int','print','println','prints','string','vars','main','repeat','read','sup','inf','eq','supeq'
+tokens = ['num', 'id', 'int','print','println','prints','string','main','repeat','read','sup','inf','eq','supeq'
 ,'infeq','not','diff','and','or','if','else','for','while','plus','addeq','subeq','diveq','muleq','addeql','subeql','diveql'
-,'muleql','minus','plusl','minusl','modeq','modeql','return','global','gid']
+,'muleql','minus','plusl','minusl','modeq','modeql','return','global','gid','numR']
 literals = ['=','(',')','{','}','+','*','-','/','[',']',';','%',',']
 
+
+def t_numR(t):
+    r'\d+\.\d+'
+    t.value = float(t.value)    
+    return t
 
 def t_num(t):
     r'\d+'

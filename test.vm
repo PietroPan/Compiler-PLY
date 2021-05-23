@@ -1,5 +1,6 @@
 pushi 19
 pushn 6
+pushn 10
 start
 pushi 0
 pushi 2
@@ -72,6 +73,8 @@ pushs "\n"
 writes
 stop
 func:
+pushi 0
+pushi 2
 pushn 10
 pushgp
 pushi 1
@@ -90,7 +93,6 @@ pushi 0
 storel -1
 return
 fun2:
-pushn 10
 pushgp
 pushi 1
 padd
