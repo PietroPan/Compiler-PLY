@@ -1,4 +1,4 @@
-#Virtual Machine
+# Virtual Machine
 
 All the rights to this code goes to my colleagues at the University of Minho
 
