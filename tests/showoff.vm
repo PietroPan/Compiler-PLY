@@ -4,7 +4,6 @@ pushi 5
 pushi 5
 pushi 5
 pushi 5
-pushn 10
 start
 pushi 1
 pushi 2
@@ -30,7 +29,19 @@ pushn 5
 pushi 0
 pushi 0
 pushi 0
+pushi 0
 pushn 10
+pushl 28
+pushi 2
+add
+storel 28
+pushl 28
+pushi 2
+add
+pushl 28
+writei
+pushs "\n"
+writes
 pushgp
 pushi 1
 padd
@@ -89,16 +100,16 @@ loadn
 writei
 pushs " "
 writes
-pushl 28
+pushl 29
 pushi 1
 add
-storel 28
-pushl 28
+storel 29
+pushl 29
 pushi 5
 equal
 jz repeat1
 pushi 0
-storel 28
+storel 29
 pushs "\n"
 writes
 pushi 0
@@ -143,6 +154,11 @@ storel 26
 pushl 26
 jump forStart3
 forEnd3:
+pushi 1
+pushi 2
+equal
+jz ifEnd4
+ifEnd4:
 pushfp
 pushi 0
 padd
@@ -246,7 +262,6 @@ storel -1
 return
 func2:
 pushi 3
-pushn 10
 pushi 3
 storel -1
 return

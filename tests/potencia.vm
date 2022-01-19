@@ -1,10 +1,12 @@
 start
 pushn 10
-pushs "Valor Retornado: \n"
-writes
 pushi 0
 pusha pow
 call
+pushi 0
+pusha pow
+call
+add
 writei
 pushs "\n"
 writes
@@ -14,7 +16,6 @@ pushi 0
 pushi 0
 pushi 0
 pushi 0
-pushn 10
 pushs "Insira base:\n"
 writes
 read

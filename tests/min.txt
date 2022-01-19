@@ -1,12 +1,11 @@
-vars {
+
+main {
     int {
         n
         i
         in
         menor
     }
-}
-main {
     prints("Quantos números deseja ler:\n")
     read(n)
     prints("Insira um número:\n")
@@ -14,7 +13,7 @@ main {
     for(i=1;i<n;i=i+1){
         prints("Insira um número:\n")
         read(in)
-        if (in<menor) menor=in
+        if (in<menor) { menor=in }
     }
 
     prints("Menor número inserido: ")

@@ -1,6 +1,6 @@
 main {
-    prints("Valor Retornado: \n")
-    println(pow())
+    
+    println(pow()+pow())
 }
 
 pow {

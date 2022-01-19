@@ -1,56 +1,47 @@
+start
 pushi 0
 pushi 0
 pushi 0
 pushi 0
 pushn 10
-start
 pushs "Quantos números deseja ler:\n"
 writes
 read
 atoi
-storeg 0
+storel 0
 pushs "Insira um número:\n"
 writes
 read
 atoi
-storeg 3
+storel 3
 pushi 1
-storeg 1
-forStart3:
-pushg 1
-pushg 0
+storel 1
+forStart2:
+pushl 1
+pushl 0
 inf
-jz forEnd3
-pushg 1
-pushi 3
-mod
-pushi 0
-equal
-jz ifEnd1
-pushs "MOD\n"
-writes
-ifEnd1:
+jz forEnd2
 pushs "Insira um número:\n"
 writes
 read
 atoi
-storeg 2
-pushg 2
-pushg 3
+storel 2
+pushl 2
+pushl 3
 inf
-jz ifEnd2
-pushg 2
-storeg 3
-ifEnd2:
-pushg 1
+jz ifEnd1
+pushl 2
+storel 3
+ifEnd1:
+pushl 1
 pushi 1
 add
-storeg 1
-jump forStart3
-forEnd3:
+storel 1
+jump forStart2
+forEnd2:
 pushs "Menor número inserido: "
 writes
-pushg 3
+pushl 3
 writei
 pushs "\n"
 writes

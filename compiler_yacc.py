@@ -2,112 +2,6 @@ import sys
 import ply.yacc as yacc
 from compiler_lex import tokens
 
-
-# Prog -> VarBlc MainBlc
-#
-# VarBlc -> vars '{' Dcls '}'
-#
-# Dcls    -> Dcl Dcls
-#          | 
-#
-# Dcl -> int id
-#      | int id = num 
-#      | int id '[' num ']'
-#      | int id '[' num ']' '[' num ']'
-#
-# MainBlc -> main '{' Insts '}'
-# 
-# Insts -> Inst Insts
-#        | 
-#
-# Inst -> AttrInt
-#       | Print
-#       | Println
-#       | Repat
-#       | Read
-#       | If
-#       | IfElse
-#       | For
-#       | While
-# 
-# Attr -> id = Exp
-#       | id '[' Exp ']' = Exp
-#       | id '[' Exp ']' '[' Exp ']' = Exp
-# 
-# Print -> print '(' Exp ')'
-#
-# Println -> println '(' Exp ')'
-#
-# Prints -> prints '(' string ')'
-#
-# Repeat -> RepeatStart '(' num ')' '{' Insts '}'
-# 
-# RepeatStart -> repeat 
-#
-# For -> for '(' Insts ';' Cond ';' Insts ')' '{' Insts '}'
-#
-# While -> while '(' Cond ')' '{' Insts '}'
-#
-# Read -> read '(' id ')'
-#
-# Exp -> Exp '+' Term
-#      | Exp '-' Term
-#      | id addeq Term
-#      | id subeq Term
-#      | id addeql Term
-#      | id subeql Term
-#      | Term
-# 
-# Term -> Term '*' Factor
-#       | Term '/' Factor
-#       | id muleq Factor
-#       | id diveq Factor
-#       | id muleql Factor
-#       | id diveql Factor
-#       | id modeq Factor
-#       | id modeql Factor
-#       | Factor
-#
-# Factor -> id
-#         | num
-#         | id minus
-#         | id plus
-#         | id minusl
-#         | id plusl
-#         | '(' Cond ')'
-#         | '(' Exp ')'
-#         | "id '[' Exp ']'"
-#         | "id '[' Exp ']' '[' Exp ']'"
-#
-# Cond -> Exp sup Exp
-#       | Exp inf Exp
-#       | Exp supeq Exp
-#       | Exp infeq Exp
-#       | not Exp
-#       | Exp eq Exp
-#       | Exp diff Exp
-#       | Cond and Cond
-#       | Cond or Cond
-#       | '(' Cond and Cond ')'
-#       | '(' Cond or Cond ')'
-#
-# If -> IfStart '{' Insts '}'
-#     | IfStart '{' Insts '}' ElseStart '{' Insts '}'
-#
-# IfStart -> if '(' Cond ')'
-# 
-# ElseStart -> else
-#
-# Prog -> GlobalBlc MainBlc DefBlcs
-# GlobalBlc -> GVarBlcs
-#            |
-# MainBlc -> main '{' VarBlcs Insts '}'
-# VarBlcs -> VarBlcs VarBlc
-#          |
-# DefBlcs -> DefBlcs DefBlc
-#          |
-# DefBlcs -> id '{' VarBlcs Insts '}'
-
 def p_Prog(p):
     "Prog :  GlobalBlc MainBlc DefBlcs"
     out.write(p[1]+p[2]+p[3])
@@ -131,15 +25,7 @@ def p_DefBlc(p):
     parser.level = -1
 
 
-def p_VarBlcs(p):
-    "VarBlcs : VarBlcs BlcInt "
-    p[0]=p[1]+p[2]
-    p[0]+="pushn 10\n"
 
-def p_VarBlcs_End(p):
-    "VarBlcs : "
-    p[0]=""
-    
 
 def p_GlobalBlc(p):
     "GlobalBlc : GlobalBegin VarBlcs '}' "
@@ -156,6 +42,18 @@ def p_GlobalBlc_Null(p):
     "GlobalBlc : "
     p[0]=""
 
+def p_VarBlcs(p):
+    "VarBlcs : VarBlcs BlcInt "
+    p[0]=p[1]+p[2]
+
+def p_VarBlcs_End(p):
+    "VarBlcs : "
+    p[0]=""
+
+def p_BlcInt(p):
+    "BlcInt : int '{' Dcls '}' "
+    p[0]=p[3]
+
 
 def p_Dcls(p):
     "Dcls : Dcls Dcl"
@@ -165,10 +63,12 @@ def p_Dcls_End(p):
     "Dcls : "
     p[0]=""
 
+
 def p_MainBlc(p):
     "MainBlc : main '{' VarBlcs Insts '}'"
     p[0]="start\n"
-    p[0]+=p[3]+p[4]+"stop\n"
+    p[0]+=p[3]+"pushn 10\n"
+    p[0]+=p[4]+"stop\n"
     
     parser.table = {}
     parser.offset = 0
@@ -232,8 +132,9 @@ def p_Inst_If(p):
 
 
 def p_Repeat(p):
-    "Repeat : RepeatS '(' num ')' '{' Insts '}' "
+    "Repeat : repeat '(' Exp ')' '{' Insts '}' "
     p.parser.currTag+=1
+    p.parser.level=(p.parser.level+1)%10
     p[0]="repeat"+str(p.parser.currTag)+":\n"
 
     p[0]+=p[6]
@@ -244,19 +145,13 @@ def p_Repeat(p):
     p[0]+="storel "+addr+"\n"
 
     p[0]+="pushl "+addr+"\n"
-    p[0]+="pushi "+str(p[3])+"\n"
+    p[0]+=p[3]
     p[0]+="equal\n"
     p[0]+="jz repeat"+str(p.parser.currTag)+"\n"
 
     p[0]+="pushi 0\n"
     p[0]+="storel "+addr+"\n"
 
-    p.parser.level-=1
-
-
-def p_RepeatS(p):
-    "RepeatS : repeat"
-    p.parser.level+=1
 
 def p_For(p):
     "For : for '(' Insts ';' Cond ';' Insts ')' '{' Insts '}'"
@@ -303,10 +198,6 @@ def p_Prints(p):
     "Prints : prints '(' string ')'"
     p[0]="pushs "+p[3]+"\n"
     p[0]+="writes\n"
-
-def p_BlcInc(p):
-    "BlcInt : int '{' Dcls '}' "
-    p[0]=p[3]
 
 def p_Dcl_Arr(p):
     "Dcl : id '[' num ']'"
@@ -418,9 +309,8 @@ def p_Attr(p):
 
 def p_Attr_arr(p):
     "Attr : id '[' Exp ']' '=' Exp"
-
     p[0]="pushfp\n"
-    p[0]+="pushi "+str(p.parser.table[p[1][0]])+"\n"
+    p[0]+="pushi "+str(p.parser.table[p[1]][0])+"\n"
     p[0]+="padd\n"
     p[0]+=p[3]
     p[0]+=p[6]
@@ -487,17 +377,7 @@ def p_If(p):
     p[0]+=p[6]
     p[0]+="ifEnd"+str(p.parser.currTag)+":\n"
 
-    p.parser.level-=1
 
-def p_If_0(p):
-    "If : if '(' Cond ')' Inst "
-    p.parser.currTag+=1
-    p[0]=p[3]+"jz ifEnd"+str(p.parser.currTag)+"\n"
-
-    p[0]+=p[5]
-    p[0]+="ifEnd"+str(p.parser.currTag)+":\n"
-
-    p.parser.level-=1
 
 def p_If_Else(p):
     "If : if '(' Cond ')' '{' Insts '}' else '{' Insts '}'"
@@ -510,7 +390,6 @@ def p_If_Else(p):
     p[0]+=p[10]
     p[0]+="elseEnd"+str(p.parser.currTag)+":\n"
 
-    p.parser.level-=1
 
 
 
@@ -663,7 +542,7 @@ def p_Term_gid_muleq(p):
 def p_Term_gid_diveq(p):
     "Term : gid diveq Factor"
     p[0]="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
-    p[0]+=p[3]
+    p[0]+=p[3]    
     p[0]+="div\n"
     p[0]+="storeg "+str(p.parser.tableG[p[1][1:]])+"\n"
     p[0]+="pushg "+str(p.parser.tableG[p[1][1:]])+"\n"
@@ -829,15 +708,6 @@ def p_Factor_group(p):
     "Factor : '(' Exp ')'"
     p[0] = p[2]
 
-
-def p_Cond_and(p):
-    "Cond : Cond and Cond"
-    p[0] = p[1]+p[3]+"mul\n"
-
-def p_Cond_or(p):
-    "Cond : Cond or Cond"
-    p[0]=p[1]+p[3]+"add\n"
-    p[0]+=p[1]+p[3]+"mul\n"+"sub\n"
 
 def p_Cond_and_par(p):
     "Cond : '(' Cond and Cond ')'"

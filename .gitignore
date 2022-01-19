@@ -4,3 +4,7 @@ vms/vmsGTKAux
 vms/lex.yy.c
 vms/y.tab.c
 vms/y.tab.h
+parsetab.py
+*.out
+__pycache__/
+.vscode/
